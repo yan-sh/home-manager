@@ -1,21 +1,61 @@
 { config, pkgs, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
   home.username = "freak";
   home.homeDirectory = "/home/freak";
 
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
   home.stateVersion = "22.05";
 
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  home.packages = [
+    pkgs.tmux
+    pkgs.neovim
+    # pkgs.podman
+    # pkgs.runc
+    # pkgs.conmon
+    # pkgs.skopeo
+    # pkgs.slirp4netns
+    # pkgs.fuse-overlayfs
+    pkgs.fzf
+    pkgs.htop
+    pkgs.rnix-lsp
+    pkgs.xclip
+    pkgs.ripgrep
+    pkgs.ag
+    pkgs.fd
+    pkgs.ncdu
+    pkgs.haskellPackages.hasktags
+  ];
+
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
+  programs.zsh = {
+    enable = true;
+    oh-my-zsh = {
+      enable = true;
+      theme = "agnoster";
+    };
+    shellAliases = {
+      gco = "git checkout";
+      gcob = "git checkout -b";
+      gaa = "git add .";
+      gc = "git commit";
+      gcam = "git commit --amend";
+      gs = "git status";
+      glg = "git log --oneline --graph --parents";
+    };
+    initExtra = ''
+      export PATH=$HOME/.local/bin/:$PATH
+      '';
+  };
+
+  programs.git = {
+    enable = true;
+    userName = "Yan Shkurinsky";
+    userEmail = "yan.shkurinsky@gmail.com";
+  };
+
+  home.file.".config/nvim/lua/packman.lua".source = ./packman.lua;
+  home.file.".config/nvim/init.lua".source = ./init.lua;
 }
