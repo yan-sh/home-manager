@@ -46,7 +46,10 @@
       glg = "git log --oneline --graph --parents";
     };
     initExtra = ''
+      if [ -e /home/freak/.nix-profile/etc/profile.d/nix.sh ]; then . /home/freak/.nix-profile/etc/profile.d/nix.sh; fi
       export PATH=$HOME/.local/bin/:$PATH
+      export GIT_SSH=/usr/bin/ssh
+      export FZF_DEFAULT_COMMAND='fd --type f'
       '';
   };
 

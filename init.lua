@@ -184,6 +184,10 @@ require'nvim-tree'.setup {
       -- list of mappings to set on the tree manually
       list = {}
     }
+  },
+
+  filter = {
+    custom = {'.git', 'dist-newstyle'}
   }
 }
 
@@ -224,7 +228,6 @@ vim.g.nvim_tree_icons = {
       }
     }
 
-vim.g.nvim_tree_ignore = {'.git', 'dist-newstyle'}
 --
 
 --
