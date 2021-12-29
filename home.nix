@@ -25,7 +25,8 @@
     pkgs.ag
     pkgs.fd
     pkgs.ncdu
-    pkgs.haskellPackages.hasktags
+    pkgs.httpie
+    pkgs.jq
   ];
 
   programs.direnv.enable = true;
@@ -44,6 +45,7 @@
       gcam = "git commit --amend";
       gs = "git status";
       glg = "git log --oneline --graph --parents";
+      gm = "git merge --no-ff";
     };
     initExtra = ''
       if [ -e /home/freak/.nix-profile/etc/profile.d/nix.sh ]; then . /home/freak/.nix-profile/etc/profile.d/nix.sh; fi
@@ -61,4 +63,5 @@
 
   home.file.".config/nvim/lua/packman.lua".source = ./packman.lua;
   home.file.".config/nvim/init.lua".source = ./init.lua;
+  home.file.".tmux.conf".source = ./tmux.conf;
 }
