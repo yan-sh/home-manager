@@ -3,7 +3,6 @@
 {
   home.username = "freak";
   home.homeDirectory = "/home/freak";
-
   home.stateVersion = "22.05";
 
   programs.home-manager.enable = true;
@@ -64,4 +63,5 @@
   home.file.".config/nvim/lua/packman.lua".source = ./packman.lua;
   home.file.".config/nvim/init.lua".source = ./init.lua;
   home.file.".tmux.conf".source = ./tmux.conf;
+  home.file.".config/alacritty/alacritty.yml".source = ./alacritty.yml;
 }
