@@ -26,6 +26,8 @@
     pkgs.ncdu
     pkgs.httpie
     pkgs.jq
+    pkgs.rustup
+    pkgs.rust-analyzer
   ];
 
   programs.direnv.enable = true;
@@ -34,7 +36,7 @@
     enable = true;
     oh-my-zsh = {
       enable = true;
-      theme = "agnoster";
+      theme = "robbyrussell";
     };
     shellAliases = {
       gco = "git checkout";
