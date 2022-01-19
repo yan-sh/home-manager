@@ -47,6 +47,7 @@
       gs = "git status";
       glg = "git log --oneline --graph --parents";
       gm = "git merge --no-ff";
+      gd = "git diff";
     };
     initExtra = ''
       if [ -e /home/freak/.nix-profile/etc/profile.d/nix.sh ]; then . /home/freak/.nix-profile/etc/profile.d/nix.sh; fi
