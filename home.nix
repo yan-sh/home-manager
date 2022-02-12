@@ -7,28 +7,23 @@
 
   programs.home-manager.enable = true;
 
-  home.packages = [
-    pkgs.tmux
-    pkgs.neovim
-    # pkgs.podman
-    # pkgs.runc
-    # pkgs.conmon
-    # pkgs.skopeo
-    # pkgs.slirp4netns
-    # pkgs.fuse-overlayfs
-    pkgs.fzf
-    pkgs.htop
-    pkgs.rnix-lsp
-    pkgs.xclip
-    pkgs.ripgrep
-    pkgs.ag
-    pkgs.fd
-    pkgs.ncdu
-    pkgs.httpie
-    pkgs.jq
-    pkgs.rustup
-    pkgs.rust-analyzer
-  ];
+  home.packages = 
+    [
+      pkgs.tmux
+      pkgs.neovim
+      pkgs.fzf
+      pkgs.htop
+      pkgs.rnix-lsp
+      pkgs.xclip
+      pkgs.ripgrep
+      pkgs.ag
+      pkgs.fd
+      pkgs.ncdu
+      pkgs.httpie
+      pkgs.jq
+      pkgs.rustup
+      pkgs.rust-analyzer
+    ];
 
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
@@ -48,6 +43,7 @@
       glg = "git log --oneline --graph --parents";
       gm = "git merge --no-ff";
       gd = "git diff";
+      gb = "git branch";
     };
     initExtra = ''
       if [ -e /home/freak/.nix-profile/etc/profile.d/nix.sh ]; then . /home/freak/.nix-profile/etc/profile.d/nix.sh; fi

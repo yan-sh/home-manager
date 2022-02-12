@@ -44,6 +44,9 @@ packman.get("casperstorm/sort-hvid.vim")
 packman.get("rflban/homecolors.vim")
 packman.get("sainnhe/gruvbox-material")
 packman.get("LnL7/vim-nix")
+packman.get("romgrk/doom-one.vim")
+packman.get("NTBBloodbath/doom-one.nvim")
+packman.get("sainnhe/everforest")
 
 
 
@@ -84,10 +87,10 @@ vim.o.termguicolors = true
 vim.cmd([[
   colorscheme gruvbox-material
   syntax on
-  set background=light
   set hidden
+  set background=light
   if exists('g:neoray')
-      set guifont=Iosevka:h13
+      set guifont=Iosevka:h15
       NeoraySet CursorAnimTime 0.03
   endif
 ]])
@@ -242,6 +245,7 @@ vim.api.nvim_set_keymap('i', '<A-j>', '<C-c><C-w>j', {})
 vim.api.nvim_set_keymap('i', '<A-k>', '<C-c><C-w>k', {})
 vim.api.nvim_set_keymap('i', '<A-l>', '<C-c><C-w>l', {})
 vim.api.nvim_set_keymap('', '<A-f>', '<C-c>:FZF<CR>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-b>', '<C-c>:Buffers<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-a>', '<C-c>:Ag<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-s>', '<C-c>:w<CR>', {silent=true})
 vim.api.nvim_set_keymap('i', '<A-s>', '<C-c>:w<CR>', {silent=true})
@@ -300,11 +304,12 @@ lsp_status.config({
     indicator_ok = 'Ok',
     status_symbol = '',
   })
-local lualine = require('lualine')
-lualine.setup{
-  options = {theme = 'gruvbox_light', icons_enabled = false},
-  sections = {lualine_c = {lsp_status.status, {'filename', full_path = true}}}
-}
+
+--local lualine = require('lualine')
+--lualine.setup{
+--  options = {theme = 'gruvbox_light', icons_enabled = false},
+--  sections = {lualine_c = {lsp_status.status, {'filename', full_path = true}}}
+--}
 
 --
 
