@@ -21,7 +21,7 @@
       pkgs.ncdu
       pkgs.httpie
       pkgs.jq
-      pkgs.rustup
+      # pkgs.rustup
       pkgs.rust-analyzer
     ];
 
@@ -47,7 +47,7 @@
     };
     initExtra = ''
       if [ -e /home/freak/.nix-profile/etc/profile.d/nix.sh ]; then . /home/freak/.nix-profile/etc/profile.d/nix.sh; fi
-      export PATH=$HOME/.local/bin/:$PATH
+      export PATH=$HOME/.local/bin/:$HOME/.cargo/bin:$PATH
       export GIT_SSH=/usr/bin/ssh
       export FZF_DEFAULT_COMMAND='fd --type f'
       '';
