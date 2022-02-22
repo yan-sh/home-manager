@@ -85,12 +85,12 @@ vim.o.shiftwidth = 2
 vim.o.tabstop = 2
 vim.o.termguicolors = true
 vim.cmd([[
-  colorscheme gruvbox-material
+  colorscheme everforest
   syntax on
   set hidden
-  set background=light
+  set background=dark
   if exists('g:neoray')
-      set guifont=Iosevka:h15
+      set guifont=Iosevka:h16
       NeoraySet CursorAnimTime 0.03
   endif
 ]])
