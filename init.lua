@@ -47,6 +47,17 @@ packman.get("LnL7/vim-nix")
 packman.get("romgrk/doom-one.vim")
 packman.get("NTBBloodbath/doom-one.nvim")
 packman.get("sainnhe/everforest")
+packman.get("KeitaNakamura/neodark.vim")
+packman.get("adrian5/oceanic-next-vim")
+packman.get("mswift42/vim-themes")
+packman.get("tobi-wan-kenobi/zengarden")
+packman.get("yuttie/sublimetext-spacegray.vim")
+packman.get("antonk52/lake.vim")
+packman.get("habamax/vim-saturnite")
+packman.get("axvr/raider.vim")
+packman.get("Softmotions/vim-dark-frost-theme")
+packman.get("sheldonldev/vim-gruvdark")
+packman.get("habamax/vim-habanight")
 
 
 
@@ -85,7 +96,7 @@ vim.o.shiftwidth = 2
 vim.o.tabstop = 2
 vim.o.termguicolors = true
 vim.cmd([[
-  colorscheme everforest
+  colorscheme solarized8_flat
   syntax on
   set hidden
   set background=dark
@@ -93,6 +104,7 @@ vim.cmd([[
       set guifont=Iosevka:h16
       NeoraySet CursorAnimTime 0.03
   endif
+  let g:ghcid_keep_open=1 
 ]])
 -- set colorcolumn=90
 
