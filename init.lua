@@ -1,7 +1,7 @@
 require("packman")
 
 
-packman.get("aiya000/vim-ghcid-quickfix")
+-- packman.get("aiya000/vim-ghcid-quickfix")
 --
 packman.get("lifepillar/vim-solarized8")
 packman.get("neovim/nvim-lspconfig")
