@@ -63,13 +63,13 @@ packman.get("habamax/vim-habanight")
 
 -- Lsp extensions
 -- use the same configuration you would use for vim.lsp.diagnostic.on_publish_diagnostics.
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  require('lsp_extensions.workspace.diagnostic').handler, {
-    signs = {
-      severity_limit = "Error",
-    }
-  }
-)
+-- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+--   require('lsp_extensions.workspace.diagnostic').handler, {
+--     signs = {
+--       severity_limit = "Error",
+--     }
+--   }
+-- )
 
 -- Trouble
 require("trouble").setup
@@ -316,7 +316,7 @@ lsp_status.config({
     indicator_ok = 'Ok',
     status_symbol = '',
   })
-
+--
 --local lualine = require('lualine')
 --lualine.setup{
 --  options = {theme = 'gruvbox_light', icons_enabled = false},
