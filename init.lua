@@ -365,7 +365,7 @@ end
 -- map buffer local keybindings when the language server attaches
 local servers =
   {  
-    -- "hls",
+    "hls",
     "rust_analyzer",
     "rnix"
   }
