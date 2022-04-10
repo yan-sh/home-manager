@@ -58,22 +58,33 @@ packman.get("axvr/raider.vim")
 packman.get("Softmotions/vim-dark-frost-theme")
 packman.get("sheldonldev/vim-gruvdark")
 packman.get("habamax/vim-habanight")
+packman.get("nvim-telescope/telescope.nvim")
 
 
+--
+vim.g.check_on_save = false
 
--- Lsp extensions
--- use the same configuration you would use for vim.lsp.diagnostic.on_publish_diagnostics.
--- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
---   require('lsp_extensions.workspace.diagnostic').handler, {
---     signs = {
---       severity_limit = "Error",
---     }
---   }
--- )
+function show_lsp_quickfix()
+  vim.cmd([[
+    cclose
+    vertical topleft copen
+    vertical resize 50
+  ]])
+  vim.diagnostic.setqflist()
+  vim.cmd('wincmd p')
+end
+
+function table_is_empty(T)
+  for _ in pairs(T) do return false end
+  return true
+end
+
+--
 
 -- Trouble
 require("trouble").setup
   { 
+    mode = "workspace_diagnostics",
     position = "left", 
     signs =
       {
@@ -122,7 +133,7 @@ cmp.setup({
   mapping = {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
   },
@@ -259,8 +270,8 @@ vim.api.nvim_set_keymap('i', '<A-l>', '<C-c><C-w>l', {})
 vim.api.nvim_set_keymap('', '<A-f>', '<C-c>:FZF<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-b>', '<C-c>:Buffers<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-a>', '<C-c>:Ag<CR>', {silent=true})
-vim.api.nvim_set_keymap('', '<A-s>', '<C-c>:w<CR>', {silent=true})
-vim.api.nvim_set_keymap('i', '<A-s>', '<C-c>:w<CR>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-s>', '<Cmd>lua vim.cmd("w") if vim.g.check_on_save then show_lsp_quickfix() end<CR>', {silent=true})
+-- vim.api.nvim_set_keymap('i', '<A-s>', '<C-c>:w<CR>', {silent=true})
 
 vim.api.nvim_set_keymap('', '<A-w>', '<C-c><C-w>n<CR>', {})
 vim.api.nvim_set_keymap('', '<A-v>', '<C-c><C-w>v<CR>', {})
@@ -285,9 +296,11 @@ vim.api.nvim_set_keymap('', '<F8>', ':NvimTreeToggle<CR>', {})
 -- vim.api.nvim_set_keymap('n', 'gh', [[<Cmd>lua require'lspsaga.provider'.lsp_finder()<CR>]], {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', 'K', [[<Cmd>lua require('lspsaga.hover').render_hover_doc()<CR>]], {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', 'gs', [[<Cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>]], {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<space>da', [[<Cmd>lua require('lsp_extensions.workspace.diagnostic').set_qf_list()<CR>]], {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<space>t', ':TroubleToggle<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('', '<A-g>', '<C-c>:Ghcid<CR><C-c>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-[>', '<Cmd>lua vim.cmd("cprev")<CR>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-]>', '<Cmd>lua vim.cmd("cnext")<CR>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-c>', '<Cmd>lua vim.cmd("cclose")<CR>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-o>', '<Cmd>lua vim.cmd("copen")<CR>', {silent=true})
 
 --
 -- Neogit
@@ -337,7 +350,7 @@ local custom_on_attach = function(client, bufnr)
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
   -- lsp_status.on_attach(client, bufnr)
 -- Mappings.
   local opts = { noremap=true, silent=true }
@@ -358,6 +371,7 @@ local custom_on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('', '<A-e>', '<cmd>lua show_lsp_quickfix()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
   
 end

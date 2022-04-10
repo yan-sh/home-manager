@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 
+let
+  pkgs = import <nixpkgs-unstable> {};
+in
 {
   home.username = "freak";
   home.homeDirectory = "/home/freak";
@@ -16,7 +19,7 @@
       pkgs.rnix-lsp
       pkgs.xclip
       pkgs.ripgrep
-      pkgs.ag
+      pkgs.silver-searcher
       pkgs.fd
       pkgs.ncdu
       pkgs.httpie
@@ -60,6 +63,7 @@
   };
 
   home.file.".config/nvim/lua/packman.lua".source = ./packman.lua;
+  home.file.".config/nvim/ftplugin/haskell.vim".source = ./ftplugin/haskell.vim;
   home.file.".config/nvim/init.lua".source = ./init.lua;
   home.file.".tmux.conf".source = ./tmux.conf;
   home.file.".config/alacritty/alacritty.yml".source = ./alacritty.yml;
