@@ -26,6 +26,7 @@ in
       pkgs.jq
       # pkgs.rustup
       pkgs.rust-analyzer
+      # pkgs.direnv
     ];
 
   programs.direnv.enable = true;
@@ -49,10 +50,9 @@ in
       gb = "git branch";
     };
     initExtra = ''
-      if [ -e /home/freak/.nix-profile/etc/profile.d/nix.sh ]; then . /home/freak/.nix-profile/etc/profile.d/nix.sh; fi
-      export PATH=$HOME/.local/bin/:$HOME/.cargo/bin:$PATH
       export GIT_SSH=/usr/bin/ssh
       export FZF_DEFAULT_COMMAND='fd --type f'
+      export NIX_PATH=$NIX_PATH:$HOME/.nix-defexpr/channels
       '';
   };
 

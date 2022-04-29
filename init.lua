@@ -59,16 +59,21 @@ packman.get("Softmotions/vim-dark-frost-theme")
 packman.get("sheldonldev/vim-gruvdark")
 packman.get("habamax/vim-habanight")
 packman.get("nvim-telescope/telescope.nvim")
+packman.get("srcery-colors/srcery-vim")
+packman.get("pineapplegiant/spaceduck")
+packman.get("sainnhe/edge")
+packman.get("mzarnitsa/psql")
+packman.get("lifepillar/pgsql.vim")
 
 
 --
 vim.g.check_on_save = false
+vim.diagnostic.config{underline = false}
 
 function show_lsp_quickfix()
   vim.cmd([[
     cclose
-    vertical topleft copen
-    vertical resize 50
+    belowright copen
   ]])
   vim.diagnostic.setqflist()
   vim.cmd('wincmd p')
