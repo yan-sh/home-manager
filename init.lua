@@ -155,6 +155,11 @@ cmp.setup({
 
 --
 require'nvim-tree'.setup {
+  actions = {
+    open_file = {
+      resize_window = false,
+    },
+  },
   -- disables netrw completely
   disable_netrw       = true,
   -- hijack netrw window on startup
@@ -164,16 +169,16 @@ require'nvim-tree'.setup {
   -- will not open on setup if the filetype is in this list
   ignore_ft_on_setup  = {},
   -- closes neovim automatically when the tree is the last WINDOW in the view
-  auto_close          = false,
+  -- auto_close          = false,
   -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
   open_on_tab         = false,
   -- hijacks new directory buffers when they are opened.
-  update_to_buf_dir   = {
-    -- enable the feature
-    enable = true,
-    -- allow to open the tree if it was previously closed
-    auto_open = true,
-  },
+  -- update_to_buf_dir   = {
+  --   -- enable the feature
+  --   enable = true,
+  --   -- allow to open the tree if it was previously closed
+  --   auto_open = true,
+  -- },
   -- hijack the cursor in the tree to put it at the start of the filename
   hijack_cursor       = false,
   -- updates the root directory of the tree on DirChanged (when your run :cd usually)
@@ -207,7 +212,7 @@ require'nvim-tree'.setup {
     -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
     side = 'left',
     -- if true the tree will resize itself after opening a file
-    auto_resize = false,
+    -- auto_resize = false,
     mappings = {
       -- custom only false will merge the list with the default mappings
       -- if true, it will only use your list to set the mappings
@@ -217,7 +222,7 @@ require'nvim-tree'.setup {
     }
   },
 
-  filter = {
+  filters = {
     custom = {'.git', 'dist-newstyle'}
   }
 }
@@ -242,8 +247,8 @@ vim.g.nvim_tree_icons = {
       ignored= "◌"
       },
     folder= {
-      arrow_open= "",
-      arrow_closed= "",
+      arrow_open= "-",
+      arrow_closed= "+",
       default= "",
       open= "",
       empty= "",
@@ -251,12 +256,6 @@ vim.g.nvim_tree_icons = {
       symlink= "",
       symlink_open= "",
       },
-      lsp= {
-        hint= "",
-        info= "",
-        warning= "",
-        error= "",
-      }
     }
 
 --
@@ -264,18 +263,18 @@ vim.g.nvim_tree_icons = {
 --
 vim.api.nvim_set_keymap('i', 'jj', '<Esc>', {})
 vim.api.nvim_set_keymap('t', 'jj', '<C-\\><C-n>', {})
-vim.api.nvim_set_keymap('', '<A-h>', '<C-c><C-w>h', {})
-vim.api.nvim_set_keymap('', '<A-j>', '<C-c><C-w>j', {})
-vim.api.nvim_set_keymap('', '<A-k>', '<C-c><C-w>k', {})
-vim.api.nvim_set_keymap('', '<A-l>', '<C-c><C-w>l', {})
-vim.api.nvim_set_keymap('i', '<A-h>', '<C-c><C-w>h', {})
-vim.api.nvim_set_keymap('i', '<A-j>', '<C-c><C-w>j', {})
-vim.api.nvim_set_keymap('i', '<A-k>', '<C-c><C-w>k', {})
-vim.api.nvim_set_keymap('i', '<A-l>', '<C-c><C-w>l', {})
+vim.api.nvim_set_keymap('', '<A-h>', '<C-c><C-w>h', {silent=true})
+vim.api.nvim_set_keymap('', '<A-j>', '<C-c><C-w>j', {silent=true})
+vim.api.nvim_set_keymap('', '<A-k>', '<C-c><C-w>k', {silent=true})
+vim.api.nvim_set_keymap('', '<A-l>', '<C-c><C-w>l', {silent=true})
+vim.api.nvim_set_keymap('i', '<A-h>', '<C-c><C-w>h', {silent=true})
+vim.api.nvim_set_keymap('i', '<A-j>', '<C-c><C-w>j', {silent=true})
+vim.api.nvim_set_keymap('i', '<A-k>', '<C-c><C-w>k', {silent=true})
+vim.api.nvim_set_keymap('i', '<A-l>', '<C-c><C-w>l', {silent=true})
 vim.api.nvim_set_keymap('', '<A-f>', '<C-c>:FZF<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-b>', '<C-c>:Buffers<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-a>', '<C-c>:Ag<CR>', {silent=true})
-vim.api.nvim_set_keymap('', '<A-s>', '<Cmd>lua vim.cmd("w") if vim.g.check_on_save then show_lsp_quickfix() end<CR>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-s>', '<Cmd>lua vim.cmd("w")<CR>', {silent=true})
 -- vim.api.nvim_set_keymap('i', '<A-s>', '<C-c>:w<CR>', {silent=true})
 
 vim.api.nvim_set_keymap('', '<A-w>', '<C-c><C-w>n<CR>', {})
@@ -384,7 +383,7 @@ end
 -- map buffer local keybindings when the language server attaches
 local servers =
   {  
-    "hls",
+    -- "hls",
     "rust_analyzer",
     "rnix"
   }

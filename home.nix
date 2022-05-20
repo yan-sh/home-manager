@@ -27,6 +27,8 @@ in
       # pkgs.rustup
       pkgs.rust-analyzer
       # pkgs.direnv
+      pkgs.gnvim
+      pkgs.neovide
     ];
 
   programs.direnv.enable = true;

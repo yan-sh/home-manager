@@ -1,1 +1,1 @@
-let g:check_on_save=1
+let g:check_on_save=0
