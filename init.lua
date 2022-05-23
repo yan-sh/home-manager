@@ -115,7 +115,7 @@ vim.cmd([[
   colorscheme solarized8_flat
   syntax on
   set hidden
-  set background=dark
+  set background=light
   if exists('g:neoray')
       set guifont=Iosevka:h16
       NeoraySet CursorAnimTime 0.03
@@ -290,7 +290,7 @@ vim.api.nvim_set_keymap('i', '<F1>', '<C-c>:Hoogle ', {})
 
 vim.api.nvim_set_keymap('n', ';', ':', {})
 
-vim.api.nvim_set_keymap('', '<A-t>', '<C-c>:terminal<CR><C-c>:set nonumber<CR>', {})
+vim.api.nvim_set_keymap('', '<A-t>', '<C-c>:Tags<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-/>', ':NvimTreeFindFile<CR>', {})
 vim.api.nvim_set_keymap('', '<F8>', ':NvimTreeToggle<CR>', {})
 
