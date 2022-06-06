@@ -64,6 +64,7 @@ packman.get("pineapplegiant/spaceduck")
 packman.get("sainnhe/edge")
 packman.get("mzarnitsa/psql")
 packman.get("lifepillar/pgsql.vim")
+packman.get("mcchrish/zenbones.nvim")
 
 
 --
