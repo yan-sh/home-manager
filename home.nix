@@ -1,7 +1,7 @@
 { config, ... }:
 
 let
-  pkgs = import <nixpkgs-unstable> {};
+  pkgs = import <nixpkgs> {};
 in
 {
   home.username = "freak";
@@ -28,7 +28,7 @@ in
       pkgs.rust-analyzer
       # pkgs.direnv
       pkgs.gnvim
-      pkgs.neovide
+      # pkgs.neovide
     ];
 
   programs.direnv.enable = true;

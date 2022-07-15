@@ -80,12 +80,6 @@ function show_lsp_quickfix()
   vim.cmd('wincmd p')
 end
 
-function table_is_empty(T)
-  for _ in pairs(T) do return false end
-  return true
-end
-
---
 
 -- Trouble
 require("trouble").setup
@@ -122,6 +116,7 @@ vim.cmd([[
       NeoraySet CursorAnimTime 0.03
   endif
   let g:ghcid_keep_open=1 
+  set clipboard=unnamedplus
 ]])
 -- set colorcolumn=90
 
