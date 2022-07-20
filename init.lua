@@ -107,7 +107,7 @@ vim.o.shiftwidth = 2
 vim.o.tabstop = 2
 vim.o.termguicolors = true
 vim.cmd([[
-  colorscheme solarized8_flat
+  colorscheme gruvbox-material
   syntax on
   set hidden
   set background=light
