@@ -25,11 +25,13 @@ in
       pkgs.ncdu
       pkgs.httpie
       pkgs.jq
-      # pkgs.rustup
+      pkgs.rustup
       pkgs.rust-analyzer
       # pkgs.direnv
       pkgs.gnvim
       # pkgs.neovide
+      # pkgs-unstable.obsidian
+      pkgs-unstable.zellij
     ];
 
   programs.direnv.enable = true;
@@ -66,6 +68,8 @@ in
   };
 
   home.file.".config/nvim/lua/packman.lua".source = ./packman.lua;
+  home.file.".config/nvim/lua/packer.lua".source = ./packer.nvim/packer.lua;
+  home.file.".config/nvim/lua/packer".source = ./packer.nvim/packer;
   home.file.".config/nvim/ftplugin/haskell.vim".source = ./ftplugin/haskell.vim;
   home.file.".config/nvim/init.lua".source = ./init.lua;
   home.file.".tmux.conf".source = ./tmux.conf;

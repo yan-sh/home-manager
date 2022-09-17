@@ -1,71 +1,77 @@
-require("packman")
+-- require("packman")
 
+-- vim.cmd [[packadd packer.nvim]]
 
--- packman.get("aiya000/vim-ghcid-quickfix")
---
-packman.get("lifepillar/vim-solarized8")
-packman.get("neovim/nvim-lspconfig")
--- packman.get("nvim-lua/completion-nvim")
-packman.get("hrsh7th/nvim-cmp")
-packman.get("hrsh7th/cmp-nvim-lsp")
-packman.get("hrsh7th/cmp-buffer")
-packman.get("hrsh7th/cmp-vsnip")
-packman.get("hrsh7th/vim-vsnip")
-packman.get("nvim-lua/lsp-status.nvim")
-packman.get("neovimhaskell/haskell-vim")
-packman.get("junegunn/fzf")
-packman.get("junegunn/fzf.vim")
-packman.get("Twinside/vim-hoogle")
-packman.get("nvim-lua/plenary.nvim")
-packman.get("TimUntersberger/neogit")
-packman.get("sindrets/diffview.nvim")
-packman.get("hoob3rt/lualine.nvim")
-packman.get("ryanoasis/vim-devicons")
-packman.get("kyazdani42/nvim-web-devicons")
-packman.get("kyazdani42/nvim-tree.lua")
-packman.get("onsails/lspkind-nvim")
-packman.get("onsails/lspkind-nvim")
-packman.get("nvim-lua/popup.nvim")
-packman.get("nvim-telescope/telescope.nvim")
-packman.get("onsails/lspkind-nvim")
--- packman.get("glepnir/lspsaga.nvim")
-packman.get("folke/trouble.nvim")
-packman.get("nvim-lua/lsp_extensions.nvim")
-packman.get("nvim-treesitter/nvim-treesitter")
-packman.get("cloudhead/neovim-ghcid")
-packman.get("preservim/tagbar")
-packman.get("liuchengxu/vista.vim")
-packman.get("relastle/bluewery.vim")
-packman.get("morhetz/gruvbox")
-packman.get("cocopon/iceberg.vim")
-packman.get("jacksonludwig/vim-earl-grey")
-packman.get("kkga/vim-envy")
-packman.get("casperstorm/sort-hvid.vim")
-packman.get("rflban/homecolors.vim")
-packman.get("sainnhe/gruvbox-material")
-packman.get("LnL7/vim-nix")
-packman.get("romgrk/doom-one.vim")
-packman.get("NTBBloodbath/doom-one.nvim")
-packman.get("sainnhe/everforest")
-packman.get("KeitaNakamura/neodark.vim")
-packman.get("adrian5/oceanic-next-vim")
-packman.get("mswift42/vim-themes")
-packman.get("tobi-wan-kenobi/zengarden")
-packman.get("yuttie/sublimetext-spacegray.vim")
-packman.get("antonk52/lake.vim")
-packman.get("habamax/vim-saturnite")
-packman.get("axvr/raider.vim")
-packman.get("Softmotions/vim-dark-frost-theme")
-packman.get("sheldonldev/vim-gruvdark")
-packman.get("habamax/vim-habanight")
-packman.get("nvim-telescope/telescope.nvim")
-packman.get("srcery-colors/srcery-vim")
-packman.get("pineapplegiant/spaceduck")
-packman.get("sainnhe/edge")
-packman.get("mzarnitsa/psql")
-packman.get("lifepillar/pgsql.vim")
-packman.get("mcchrish/zenbones.nvim")
+require('packer').startup(function(use)
 
+  use "lifepillar/vim-solarized8"
+  use "neovim/nvim-lspconfig"
+  use "hrsh7th/nvim-cmp"
+  use "hrsh7th/cmp-nvim-lsp"
+  use "hrsh7th/cmp-buffer"
+  use "hrsh7th/cmp-vsnip"
+  use "hrsh7th/vim-vsnip"
+  use "nvim-lua/lsp-status.nvim"
+  use "neovimhaskell/haskell-vim"
+  use "junegunn/fzf"
+  use "junegunn/fzf.vim"
+  use "Twinside/vim-hoogle"
+  use "nvim-lua/plenary.nvim"
+  use "TimUntersberger/neogit"
+  use "sindrets/diffview.nvim"
+  use "nvim-lualine/lualine.nvim"
+  use "ryanoasis/vim-devicons"
+  use "kyazdani42/nvim-web-devicons"
+  use "kyazdani42/nvim-tree.lua"
+  use "onsails/lspkind-nvim"
+  use "onsails/lspkind-nvim"
+  use "nvim-lua/popup.nvim"
+  use "nvim-telescope/telescope.nvim"
+  use "onsails/lspkind-nvim"
+  use "folke/trouble.nvim"
+  use "nvim-lua/lsp_extensions.nvim"
+  use "nvim-treesitter/nvim-treesitter"
+  use "cloudhead/neovim-ghcid"
+  use "preservim/tagbar"
+  use "liuchengxu/vista.vim"
+  use "relastle/bluewery.vim"
+  use "morhetz/gruvbox"
+  use "cocopon/iceberg.vim"
+  use "jacksonludwig/vim-earl-grey"
+  use "kkga/vim-envy"
+  use "casperstorm/sort-hvid.vim"
+  use "rflban/homecolors.vim"
+  use "sainnhe/gruvbox-material"
+  use "LnL7/vim-nix"
+  use "romgrk/doom-one.vim"
+  use "NTBBloodbath/doom-one.nvim"
+  use "sainnhe/everforest"
+  use "KeitaNakamura/neodark.vim"
+  use "adrian5/oceanic-next-vim"
+  use "mswift42/vim-themes"
+  use "tobi-wan-kenobi/zengarden"
+  use "yuttie/sublimetext-spacegray.vim"
+  use "antonk52/lake.vim"
+  use "habamax/vim-saturnite"
+  use "axvr/raider.vim"
+  use "Softmotions/vim-dark-frost-theme"
+  use "sheldonldev/vim-gruvdark"
+  use "habamax/vim-habanight"
+  use "nvim-telescope/telescope.nvim"
+  use "srcery-colors/srcery-vim"
+  use "pineapplegiant/spaceduck"
+  use "sainnhe/edge"
+  use "mzarnitsa/psql"
+  use "lifepillar/pgsql.vim"
+  use "mcchrish/zenbones.nvim"
+  use "zekzekus/menguless"
+  use "vim-scripts/bw.vim"
+  use "vim-scripts/zenesque.vim"
+  use "chriskempson/base16-vim"
+  use "mnishz/colorscheme-preview.vim"
+  use "ghifarit53/tokyonight-vim"
+end)
+-- packman.get("arkav/lualine-lsp-progress")
 
 --
 vim.g.check_on_save = false
@@ -85,7 +91,7 @@ end
 require("trouble").setup
   { 
     mode = "workspace_diagnostics",
-    position = "left", 
+    position = "bottom", 
     signs =
       {
         errors = 'E',
@@ -107,7 +113,7 @@ vim.o.shiftwidth = 2
 vim.o.tabstop = 2
 vim.o.termguicolors = true
 vim.cmd([[
-  colorscheme gruvbox-material
+  colorscheme solarized8_flat
   syntax on
   set hidden
   set background=light
@@ -117,6 +123,7 @@ vim.cmd([[
   endif
   let g:ghcid_keep_open=1 
   set clipboard=unnamedplus
+  set completeopt=menu,menuone,noselect
 ]])
 -- set colorcolumn=90
 
@@ -132,6 +139,8 @@ cmp.setup({
     end,
   },
   mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-space>'] = cmp.mapping.complete(),
@@ -330,11 +339,11 @@ lsp_status.config({
     status_symbol = '',
   })
 --
---local lualine = require('lualine')
---lualine.setup{
---  options = {theme = 'gruvbox_light', icons_enabled = false},
---  sections = {lualine_c = {lsp_status.status, {'filename', full_path = true}}}
---}
+local lualine = require('lualine')
+lualine.setup{
+  options = {theme = 'solarized_light', icons_enabled = false},
+  sections = {lualine_c = {lsp_status.status, {'filename', full_path = true}}}
+}
 
 --
 
@@ -350,8 +359,8 @@ local custom_on_attach = function(client, bufnr)
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   -- Enable completion triggered by <c-x><c-o>
-  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-  -- lsp_status.on_attach(client, bufnr)
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  lsp_status.on_attach(client, bufnr)
 -- Mappings.
   local opts = { noremap=true, silent=true }
 -- See :help vim.lsp.* for documentation on any of the below functions
@@ -373,13 +382,14 @@ local custom_on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap('', '<A-e>', '<cmd>lua show_lsp_quickfix()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  buf_set_keymap("n", "<space>s", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", opts)
   
 end
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 local servers =
   {  
-    -- "hls",
+    "hls",
     "rust_analyzer",
     "rnix"
   }
@@ -388,8 +398,12 @@ local lspSettings =
 
   , hls =
       { haskell =
-        { hlintOn = false
-        , formattingProvider = "stylish-haskell"
+        { plugin =
+          { hlint =
+            { diagnosticsOn = false
+            , codeActionsOn = false
+            }
+          }
         }
       }
   , rust_analyzer =
@@ -408,6 +422,11 @@ local lspSettings =
         }
       }
   }
+
+
+--    "haskell.plugin.ghcide-completions.config.snippetsOn": false,
+--    "haskell.plugin.hlint.diagnosticsOn": false,
+--    "haskell.plugin.hlint.codeActionsOn": false
 
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
