@@ -63,13 +63,12 @@ require('packer').startup(function(use)
   use "sainnhe/edge"
   use "mzarnitsa/psql"
   use "lifepillar/pgsql.vim"
-  use "mcchrish/zenbones.nvim"
   use "zekzekus/menguless"
   use "vim-scripts/bw.vim"
   use "vim-scripts/zenesque.vim"
   use "chriskempson/base16-vim"
   use "mnishz/colorscheme-preview.vim"
-  use "ghifarit53/tokyonight-vim"
+  use "folke/tokyonight.nvim"
 end)
 -- packman.get("arkav/lualine-lsp-progress")
 
@@ -91,7 +90,7 @@ end
 require("trouble").setup
   { 
     mode = "workspace_diagnostics",
-    position = "bottom", 
+    position = "left", 
     signs =
       {
         errors = 'E',
@@ -376,7 +375,7 @@ local custom_on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float({scope="line"})<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
