@@ -25,13 +25,14 @@ in
       pkgs.ncdu
       pkgs.httpie
       pkgs.jq
-      pkgs.rustup
-      pkgs.rust-analyzer
+      # pkgs.rustup
+      # pkgs.rust-analyzer
       # pkgs.direnv
-      pkgs.gnvim
+      # pkgs.gnvim
       # pkgs.neovide
       # pkgs-unstable.obsidian
       pkgs-unstable.zellij
+      pkgs.podman
     ];
 
   programs.direnv.enable = true;

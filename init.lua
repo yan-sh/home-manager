@@ -58,7 +58,6 @@ require('packer').startup(function(use)
   use "sheldonldev/vim-gruvdark"
   use "habamax/vim-habanight"
   use "nvim-telescope/telescope.nvim"
-  use "srcery-colors/srcery-vim"
   use "pineapplegiant/spaceduck"
   use "sainnhe/edge"
   use "mzarnitsa/psql"
@@ -69,6 +68,9 @@ require('packer').startup(function(use)
   use "chriskempson/base16-vim"
   use "mnishz/colorscheme-preview.vim"
   use "folke/tokyonight.nvim"
+  use "rktjmp/lush.nvim"
+  use "Lokaltog/monotone.nvim"
+  use "cideM/yui"
 end)
 -- packman.get("arkav/lualine-lsp-progress")
 
@@ -338,11 +340,11 @@ lsp_status.config({
     status_symbol = '',
   })
 --
-local lualine = require('lualine')
-lualine.setup{
-  options = {theme = 'solarized_light', icons_enabled = false},
-  sections = {lualine_c = {lsp_status.status, {'filename', full_path = true}}}
-}
+-- local lualine = require('lualine')
+-- lualine.setup{
+--   options = {theme = 'solarized_light', icons_enabled = false},
+--   sections = {lualine_c = {lsp_status.status, {'filename', full_path = true}}}
+-- }
 
 --
 
@@ -388,7 +390,7 @@ end
 -- map buffer local keybindings when the language server attaches
 local servers =
   {  
-    "hls",
+    -- "hls",
     "rust_analyzer",
     "rnix"
   }
