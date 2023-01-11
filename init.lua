@@ -131,33 +131,33 @@ vim.cmd([[
 -- LSP complete
 
   -- Setup nvim-cmp.
-local cmp = require'cmp'
-
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body) -- For vsnip user.
-    end,
-  },
-  mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    -- { name = 'vsnip' },
-    -- { name = 'buffer' },
-  },
-
-  completion = {
-      autocomplete = false
-  },
-})
+-- local cmp = require'cmp'
+-- 
+-- cmp.setup({
+--   snippet = {
+--     expand = function(args)
+--       vim.fn["vsnip#anonymous"](args.body) -- For vsnip user.
+--     end,
+--   },
+--   mapping = {
+--     ['<C-p>'] = cmp.mapping.select_prev_item(),
+--     ['<C-n>'] = cmp.mapping.select_next_item(),
+--     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+--     ['<C-f>'] = cmp.mapping.scroll_docs(4),
+--     ['<C-space>'] = cmp.mapping.complete(),
+--     ['<C-e>'] = cmp.mapping.close(),
+--     ['<CR>'] = cmp.mapping.confirm({ select = true }),
+--   },
+--   sources = {
+--     { name = 'nvim_lsp' },
+--     -- { name = 'vsnip' },
+--     -- { name = 'buffer' },
+--   },
+-- 
+--   completion = {
+--       autocomplete = false
+--   },
+-- })
 
 --
 require'nvim-tree'.setup {
@@ -267,6 +267,7 @@ vim.g.nvim_tree_icons = {
 --
 
 --
+--
 vim.api.nvim_set_keymap('i', 'jj', '<Esc>', {})
 vim.api.nvim_set_keymap('t', 'jj', '<C-\\><C-n>', {})
 vim.api.nvim_set_keymap('', '<A-h>', '<C-c><C-w>h', {silent=true})
@@ -357,10 +358,10 @@ local nvim_lsp = require('lspconfig')
 -- after the language server attaches to the current buffer
 local custom_on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  -- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
   lsp_status.on_attach(client, bufnr)
 -- Mappings.
   local opts = { noremap=true, silent=true }
@@ -390,7 +391,7 @@ end
 -- map buffer local keybindings when the language server attaches
 local servers =
   {  
-    -- "hls",
+    "hls",
     "rust_analyzer",
     "rnix"
   }
@@ -433,6 +434,6 @@ for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = custom_on_attach,
     settings = lspSettings[lsp],
-    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    -- capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
   }
 end
