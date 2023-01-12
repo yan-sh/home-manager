@@ -14,7 +14,7 @@ in
   home.packages = 
     [
       pkgs.tmux
-      pkgs-unstable.neovim
+      pkgs.neovim
       pkgs.fzf
       pkgs.htop
       pkgs.rnix-lsp

@@ -2,76 +2,81 @@
 
 -- vim.cmd [[packadd packer.nvim]]
 
-require('packer').startup(function(use)
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
-  use "lifepillar/vim-solarized8"
-  use "neovim/nvim-lspconfig"
-  use "hrsh7th/nvim-cmp"
-  use "hrsh7th/cmp-nvim-lsp"
-  use "hrsh7th/cmp-buffer"
-  use "hrsh7th/cmp-vsnip"
-  use "hrsh7th/vim-vsnip"
-  use "nvim-lua/lsp-status.nvim"
-  use "neovimhaskell/haskell-vim"
-  use "junegunn/fzf"
-  use "junegunn/fzf.vim"
-  use "Twinside/vim-hoogle"
-  use "nvim-lua/plenary.nvim"
-  use "TimUntersberger/neogit"
-  use "sindrets/diffview.nvim"
-  use "nvim-lualine/lualine.nvim"
-  use "ryanoasis/vim-devicons"
-  use "kyazdani42/nvim-web-devicons"
-  use "kyazdani42/nvim-tree.lua"
-  use "onsails/lspkind-nvim"
-  use "onsails/lspkind-nvim"
-  use "nvim-lua/popup.nvim"
-  use "nvim-telescope/telescope.nvim"
-  use "onsails/lspkind-nvim"
-  use "folke/trouble.nvim"
-  use "nvim-lua/lsp_extensions.nvim"
-  use "nvim-treesitter/nvim-treesitter"
-  use "cloudhead/neovim-ghcid"
-  use "preservim/tagbar"
-  use "liuchengxu/vista.vim"
-  use "relastle/bluewery.vim"
-  use "morhetz/gruvbox"
-  use "cocopon/iceberg.vim"
-  use "jacksonludwig/vim-earl-grey"
-  use "kkga/vim-envy"
-  use "casperstorm/sort-hvid.vim"
-  use "rflban/homecolors.vim"
-  use "sainnhe/gruvbox-material"
-  use "LnL7/vim-nix"
-  use "romgrk/doom-one.vim"
-  use "NTBBloodbath/doom-one.nvim"
-  use "sainnhe/everforest"
-  use "KeitaNakamura/neodark.vim"
-  use "adrian5/oceanic-next-vim"
-  use "mswift42/vim-themes"
-  use "tobi-wan-kenobi/zengarden"
-  use "yuttie/sublimetext-spacegray.vim"
-  use "antonk52/lake.vim"
-  use "habamax/vim-saturnite"
-  use "axvr/raider.vim"
-  use "Softmotions/vim-dark-frost-theme"
-  use "sheldonldev/vim-gruvdark"
-  use "habamax/vim-habanight"
-  use "nvim-telescope/telescope.nvim"
-  use "pineapplegiant/spaceduck"
-  use "sainnhe/edge"
-  use "mzarnitsa/psql"
-  use "lifepillar/pgsql.vim"
-  use "zekzekus/menguless"
-  use "vim-scripts/bw.vim"
-  use "vim-scripts/zenesque.vim"
-  use "chriskempson/base16-vim"
-  use "mnishz/colorscheme-preview.vim"
-  use "folke/tokyonight.nvim"
-  use "rktjmp/lush.nvim"
-  use "Lokaltog/monotone.nvim"
-  use "cideM/yui"
-end)
+
+require('lazy').setup({
+  "lifepillar/vim-solarized8",
+  "neovim/nvim-lspconfig",
+  "nvim-lua/lsp-status.nvim",
+  "neovimhaskell/haskell-vim",
+  "junegunn/fzf",
+  "junegunn/fzf.vim",
+  "Twinside/vim-hoogle",
+  "nvim-lua/plenary.nvim",
+  "TimUntersberger/neogit",
+  "sindrets/diffview.nvim",
+  "nvim-lualine/lualine.nvim",
+  "ryanoasis/vim-devicons",
+  "kyazdani42/nvim-web-devicons",
+  "kyazdani42/nvim-tree.lua",
+  "onsails/lspkind-nvim",
+  "nvim-lua/popup.nvim",
+  "nvim-telescope/telescope.nvim",
+  "nvim-lua/lsp_extensions.nvim",
+  "nvim-treesitter/nvim-treesitter",
+  "cloudhead/neovim-ghcid",
+  "preservim/tagbar",
+  "liuchengxu/vista.vim",
+  "relastle/bluewery.vim",
+  "morhetz/gruvbox",
+  "cocopon/iceberg.vim",
+  "jacksonludwig/vim-earl-grey",
+  "kkga/vim-envy",
+  "casperstorm/sort-hvid.vim",
+  "rflban/homecolors.vim",
+  "sainnhe/gruvbox-material",
+  "LnL7/vim-nix",
+  "romgrk/doom-one.vim",
+  "NTBBloodbath/doom-one.nvim",
+  "sainnhe/everforest",
+  "KeitaNakamura/neodark.vim",
+  "adrian5/oceanic-next-vim",
+  "mswift42/vim-themes",
+  "tobi-wan-kenobi/zengarden",
+  "yuttie/sublimetext-spacegray.vim",
+  "antonk52/lake.vim",
+  "habamax/vim-saturnite",
+  "axvr/raider.vim",
+  "Softmotions/vim-dark-frost-theme",
+  "sheldonldev/vim-gruvdark",
+  "habamax/vim-habanight",
+  "pineapplegiant/spaceduck",
+  "sainnhe/edge",
+  "mzarnitsa/psql",
+  "lifepillar/pgsql.vim",
+  "zekzekus/menguless",
+  "vim-scripts/bw.vim",
+  "vim-scripts/zenesque.vim",
+  "chriskempson/base16-vim",
+  "mnishz/colorscheme-preview.vim",
+  "folke/tokyonight.nvim",
+  "rktjmp/lush.nvim",
+  "Lokaltog/monotone.nvim",
+  "folke/trouble.nvim",
+  "cideM/yui"
+})
 -- packman.get("arkav/lualine-lsp-progress")
 
 --
@@ -127,38 +132,6 @@ vim.cmd([[
   set completeopt=menu,menuone,noselect
 ]])
 -- set colorcolumn=90
-
--- LSP complete
-
-  -- Setup nvim-cmp.
--- local cmp = require'cmp'
--- 
--- cmp.setup({
---   snippet = {
---     expand = function(args)
---       vim.fn["vsnip#anonymous"](args.body) -- For vsnip user.
---     end,
---   },
---   mapping = {
---     ['<C-p>'] = cmp.mapping.select_prev_item(),
---     ['<C-n>'] = cmp.mapping.select_next_item(),
---     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
---     ['<C-f>'] = cmp.mapping.scroll_docs(4),
---     ['<C-space>'] = cmp.mapping.complete(),
---     ['<C-e>'] = cmp.mapping.close(),
---     ['<CR>'] = cmp.mapping.confirm({ select = true }),
---   },
---   sources = {
---     { name = 'nvim_lsp' },
---     -- { name = 'vsnip' },
---     -- { name = 'buffer' },
---   },
--- 
---   completion = {
---       autocomplete = false
---   },
--- })
-
 --
 require'nvim-tree'.setup {
   actions = {
@@ -358,11 +331,11 @@ local nvim_lsp = require('lspconfig')
 -- after the language server attaches to the current buffer
 local custom_on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  -- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
   -- Enable completion triggered by <c-x><c-o>
-  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-  lsp_status.on_attach(client, bufnr)
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  -- lsp_status.on_attach(client, bufnr)
 -- Mappings.
   local opts = { noremap=true, silent=true }
 -- See :help vim.lsp.* for documentation on any of the below functions
@@ -434,6 +407,6 @@ for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = custom_on_attach,
     settings = lspSettings[lsp],
-    -- capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    -- capabilities = capabilities,
   }
 end
