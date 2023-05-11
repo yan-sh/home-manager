@@ -32,7 +32,7 @@ in
       # pkgs.neovide
       # pkgs-unstable.obsidian
       pkgs-unstable.zellij
-      pkgs.podman
+      pkgs-unstable.podman
     ];
 
   programs.direnv.enable = true;

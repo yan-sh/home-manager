@@ -24,13 +24,8 @@ require('lazy').setup({
   "junegunn/fzf",
   "junegunn/fzf.vim",
   "Twinside/vim-hoogle",
-  "nvim-lua/plenary.nvim",
-  "TimUntersberger/neogit",
-  "sindrets/diffview.nvim",
   "nvim-lualine/lualine.nvim",
   "ryanoasis/vim-devicons",
-  "kyazdani42/nvim-web-devicons",
-  "kyazdani42/nvim-tree.lua",
   "onsails/lspkind-nvim",
   "nvim-lua/popup.nvim",
   "nvim-telescope/telescope.nvim",
@@ -40,13 +35,11 @@ require('lazy').setup({
   "preservim/tagbar",
   "liuchengxu/vista.vim",
   "relastle/bluewery.vim",
-  "morhetz/gruvbox",
   "cocopon/iceberg.vim",
   "jacksonludwig/vim-earl-grey",
   "kkga/vim-envy",
   "casperstorm/sort-hvid.vim",
   "rflban/homecolors.vim",
-  "sainnhe/gruvbox-material",
   "LnL7/vim-nix",
   "romgrk/doom-one.vim",
   "NTBBloodbath/doom-one.nvim",
@@ -60,7 +53,6 @@ require('lazy').setup({
   "habamax/vim-saturnite",
   "axvr/raider.vim",
   "Softmotions/vim-dark-frost-theme",
-  "sheldonldev/vim-gruvdark",
   "habamax/vim-habanight",
   "pineapplegiant/spaceduck",
   "sainnhe/edge",
@@ -75,7 +67,9 @@ require('lazy').setup({
   "rktjmp/lush.nvim",
   "Lokaltog/monotone.nvim",
   "folke/trouble.nvim",
-  "cideM/yui"
+  "cideM/yui",
+  "ellisonleao/gruvbox.nvim",
+  "arturgoms/moonbow.nvim",
 })
 -- packman.get("arkav/lualine-lsp-progress")
 
@@ -133,109 +127,6 @@ vim.cmd([[
 ]])
 -- set colorcolumn=90
 --
-require'nvim-tree'.setup {
-  actions = {
-    open_file = {
-      resize_window = false,
-    },
-  },
-  -- disables netrw completely
-  disable_netrw       = true,
-  -- hijack netrw window on startup
-  hijack_netrw        = true,
-  -- open the tree when running this setup function
-  open_on_setup       = false,
-  -- will not open on setup if the filetype is in this list
-  ignore_ft_on_setup  = {},
-  -- closes neovim automatically when the tree is the last WINDOW in the view
-  -- auto_close          = false,
-  -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
-  open_on_tab         = false,
-  -- hijacks new directory buffers when they are opened.
-  -- update_to_buf_dir   = {
-  --   -- enable the feature
-  --   enable = true,
-  --   -- allow to open the tree if it was previously closed
-  --   auto_open = true,
-  -- },
-  -- hijack the cursor in the tree to put it at the start of the filename
-  hijack_cursor       = false,
-  -- updates the root directory of the tree on DirChanged (when your run :cd usually)
-  update_cwd          = false,
-  -- show lsp diagnostics in the signcolumn
-  -- lsp_diagnostics     = false,
-  -- update the focused file on BufEnter, un-collapses the folders recursively until it finds the file
-  update_focused_file = {
-    -- enables the feature
-    enable      = false,
-    -- update the root directory of the tree to the one of the folder containing the file if the file is not under the current root directory
-    -- only relevant when update_focused_file.enable is true
-    update_cwd  = false,
-    -- list of buffer names / filetypes that will not update the cwd if the file isn't found under the current root directory
-    -- only relevant when update_focused_file.update_cwd is true and update_focused_file.enable is true
-    ignore_list = {}
-  },
-  -- configuration options for the system open command (s in the tree by default)
-  system_open = {
-    -- the command to run this, leaving nil should work in most cases
-    cmd  = nil,
-    -- the command arguments as a list
-    args = {}
-  },
-
-  view = {
-    -- width of the window, can be either a number (columns) or a string in %, for left or right side placement
-    width = 30,
-    -- height of the window, can be either a number (columns) or a string in %, for top or bottom side placement
-    -- height = 30,
-    -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
-    side = 'left',
-    -- if true the tree will resize itself after opening a file
-    -- auto_resize = false,
-    mappings = {
-      -- custom only false will merge the list with the default mappings
-      -- if true, it will only use your list to set the mappings
-      custom_only = false,
-      -- list of mappings to set on the tree manually
-      list = {}
-    }
-  },
-
-  filters = {
-    custom = {'.git', 'dist-newstyle'}
-  }
-}
-
-vim.g.nvim_tree_show_icons = {
-  git = 0,
-  folders = 1,
-  files = 0,
-  folder_arrows = 1
-}
-
-vim.g.nvim_tree_icons = {
-    default= ,
-    symlink= ,
-    git= {
-      unstaged= "✗",
-      staged= "✓",
-      unmerged= "",
-      renamed= "➜",
-      untracked= "★",
-      deleted= "",
-      ignored= "◌"
-      },
-    folder= {
-      arrow_open= "-",
-      arrow_closed= "+",
-      default= "",
-      open= "",
-      empty= "",
-      empty_open= "",
-      symlink= "",
-      symlink_open= "",
-      },
-    }
 
 --
 
@@ -271,8 +162,6 @@ vim.api.nvim_set_keymap('i', '<F1>', '<C-c>:Hoogle ', {})
 vim.api.nvim_set_keymap('n', ';', ':', {})
 
 vim.api.nvim_set_keymap('', '<A-t>', '<C-c>:Tags<CR>', {silent=true})
-vim.api.nvim_set_keymap('', '<A-/>', ':NvimTreeFindFile<CR>', {})
-vim.api.nvim_set_keymap('', '<F8>', ':NvimTreeToggle<CR>', {})
 
 -- Lsp save keymaps
 -- vim.api.nvim_set_keymap('n', 'ca', [[<Cmd>lua require('lspsaga.codeaction').code_action()<CR>]], {noremap = true, silent = true})
@@ -285,6 +174,7 @@ vim.api.nvim_set_keymap('', '<A-[>', '<Cmd>lua vim.cmd("cprev")<CR>', {silent=tr
 vim.api.nvim_set_keymap('', '<A-]>', '<Cmd>lua vim.cmd("cnext")<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-c>', '<Cmd>lua vim.cmd("cclose")<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-o>', '<Cmd>lua vim.cmd("copen")<CR>', {silent=true})
+vim.api.nvim_set_keymap('n', 'gd', '<C-c>g[<CR>', {silent=true})
 
 --
 -- Neogit
@@ -340,7 +230,7 @@ local custom_on_attach = function(client, bufnr)
   local opts = { noremap=true, silent=true }
 -- See :help vim.lsp.* for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  --buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
