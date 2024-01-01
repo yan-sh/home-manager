@@ -5,9 +5,9 @@ let
   pkgs-unstable = import <nixpkgs-unstable> {};
 in
 {
-  home.username = "freak";
-  home.homeDirectory = "/home/freak";
-  home.stateVersion = "22.05";
+  home.username = "yanshkurinsky";
+  home.homeDirectory = "/Users/yanshkurinsky";
+  home.stateVersion = "23.05";
 
   programs.home-manager.enable = true;
 
@@ -16,15 +16,15 @@ in
       pkgs.tmux
       pkgs-unstable.neovim
       pkgs.fzf
-      pkgs.htop
+      # pkgs.htop
       pkgs.rnix-lsp
-      pkgs.xclip
+      # pkgs.xclip
       pkgs.ripgrep
       pkgs.silver-searcher
       pkgs.fd
-      pkgs.ncdu
-      pkgs.httpie
-      pkgs.jq
+      # pkgs.ncdu
+      # pkgs.httpie
+      # pkgs.jq
       # pkgs.rustup
       # pkgs.rust-analyzer
       # pkgs.direnv
@@ -32,11 +32,11 @@ in
       # pkgs.neovide
       # pkgs-unstable.obsidian
       pkgs-unstable.zellij
-      pkgs-unstable.podman
+      # pkgs-unstable.podman
     ];
 
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
+  # programs.direnv.enable = true;
+  # programs.direnv.nix-direnv.enable = true;
   programs.zsh = {
     enable = true;
     oh-my-zsh = {
@@ -58,7 +58,7 @@ in
     initExtra = ''
       export GIT_SSH=/usr/bin/ssh
       export FZF_DEFAULT_COMMAND='fd --type f'
-      export NIX_PATH=$NIX_PATH:$HOME/.nix-defexpr/channels
+      export PATH=$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH:$HOME/.ghcup/bin:$HOME/.cabal/bin
       '';
   };
 

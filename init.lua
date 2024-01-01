@@ -31,7 +31,6 @@ require('lazy').setup({
   "nvim-telescope/telescope.nvim",
   "nvim-lua/lsp_extensions.nvim",
   "nvim-treesitter/nvim-treesitter",
-  "cloudhead/neovim-ghcid",
   "preservim/tagbar",
   "liuchengxu/vista.vim",
   "relastle/bluewery.vim",
@@ -70,6 +69,14 @@ require('lazy').setup({
   "cideM/yui",
   "ellisonleao/gruvbox.nvim",
   "arturgoms/moonbow.nvim",
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+    },
+    config = true
+  }
 })
 -- packman.get("arkav/lualine-lsp-progress")
 
@@ -121,13 +128,16 @@ vim.cmd([[
       set guifont=Iosevka:h16
       NeoraySet CursorAnimTime 0.03
   endif
-  let g:ghcid_keep_open=1 
   set clipboard=unnamedplus
   set completeopt=menu,menuone,noselect
+  set noswapfile
+
+  set errorformat=%C%*\\s•\ %m,
+               \%-C\ %.%#,
+               \%A%f:%l:%c:\ %t%.%#
 ]])
 -- set colorcolumn=90
 --
-
 --
 
 --
@@ -169,9 +179,9 @@ vim.api.nvim_set_keymap('', '<A-t>', '<C-c>:Tags<CR>', {silent=true})
 -- vim.api.nvim_set_keymap('n', 'gh', [[<Cmd>lua require'lspsaga.provider'.lsp_finder()<CR>]], {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', 'K', [[<Cmd>lua require('lspsaga.hover').render_hover_doc()<CR>]], {noremap = true, silent = true})
 -- vim.api.nvim_set_keymap('n', 'gs', [[<Cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>]], {noremap = true, silent = true})
-vim.api.nvim_set_keymap('', '<A-g>', '<C-c>:Ghcid<CR><C-c>', {silent=true})
-vim.api.nvim_set_keymap('', '<A-[>', '<Cmd>lua vim.cmd("cprev")<CR>', {silent=true})
-vim.api.nvim_set_keymap('', '<A-]>', '<Cmd>lua vim.cmd("cnext")<CR>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-[>', '<C-c>:cprevious<CR><C-c>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-]>', '<C-c>:cnext<CR><C-c>', {silent=true})
+vim.api.nvim_set_keymap('', '<F5>', '<C-c>:cfile quickfix<CR><C-c>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-c>', '<Cmd>lua vim.cmd("cclose")<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-o>', '<Cmd>lua vim.cmd("copen")<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', 'gd', '<C-c>g[<CR>', {silent=true})
@@ -179,13 +189,13 @@ vim.api.nvim_set_keymap('n', 'gd', '<C-c>g[<CR>', {silent=true})
 --
 -- Neogit
 
-local neogit = require("neogit")
-
-neogit.setup {
-  integrations = {
-    diffview = true
-  }
-}
+-- local neogit = require("neogit")
+-- 
+-- neogit.setup {
+--   integrations = {
+--     diffview = true
+--   }
+-- }
 
 --
 
