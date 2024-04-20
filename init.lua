@@ -69,6 +69,11 @@ require('lazy').setup({
   "cideM/yui",
   "ellisonleao/gruvbox.nvim",
   "arturgoms/moonbow.nvim",
+  {"ndmitchell/ghcid", 
+    config = function(plugin)
+        vim.opt.rtp:append(plugin.dir .. "/plugins/nvim")
+    end
+  },
   {
     "NeogitOrg/neogit",
     dependencies = {
@@ -172,6 +177,7 @@ vim.api.nvim_set_keymap('i', '<F1>', '<C-c>:Hoogle ', {})
 vim.api.nvim_set_keymap('n', ';', ':', {})
 
 vim.api.nvim_set_keymap('', '<A-t>', '<C-c>:Tags<CR>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-g>', '<C-c>:Ghcid<CR>', {silent=true})
 
 -- Lsp save keymaps
 -- vim.api.nvim_set_keymap('n', 'ca', [[<Cmd>lua require('lspsaga.codeaction').code_action()<CR>]], {noremap = true, silent = true})
