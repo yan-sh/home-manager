@@ -17,6 +17,8 @@ vim.opt.rtp:prepend(lazypath)
 
 
 require('lazy').setup({
+  "ntk148v/komau.vim",
+  "pgdouyon/vim-yin-yang",
   "lifepillar/vim-solarized8",
   "neovim/nvim-lspconfig",
   "nvim-lua/lsp-status.nvim",
@@ -24,7 +26,10 @@ require('lazy').setup({
   "junegunn/fzf",
   "junegunn/fzf.vim",
   "Twinside/vim-hoogle",
-  "nvim-lualine/lualine.nvim",
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
+  },
   "ryanoasis/vim-devicons",
   "onsails/lspkind-nvim",
   "nvim-lua/popup.nvim",
@@ -75,12 +80,38 @@ require('lazy').setup({
     end
   },
   {
+    "cuducos/yaml.nvim",
+    ft = { "yaml" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    }
+  },
+  {
     "NeogitOrg/neogit",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "sindrets/diffview.nvim",
     },
     config = true
+  },
+  { "rose-pine/neovim", name = "rose-pine" },
+  { "haystackandroid/rusticated" },
+  { "EdenEast/nightfox.nvim" },
+  { "zenbones-theme/zenbones.nvim" },
+  { "FrenzyExists/aquarium-vim" },
+  { "lunacookies/vim-corvine" },
+  { "ashfinal/vim-colors-violet" },
+  { "jordwalke/VimCleanColors" },
+  { "epszaw/hg.vim" },
+  { "p00f/alabaster.nvim" },
+  { "jecaro/ghcid-error-file.nvim" },
+  {
+    "folke/zen-mode.nvim",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
   }
 })
 -- packman.get("arkav/lualine-lsp-progress")
@@ -129,18 +160,12 @@ vim.cmd([[
   syntax on
   set hidden
   set background=light
-  if exists('g:neoray')
-      set guifont=Iosevka:h16
-      NeoraySet CursorAnimTime 0.03
-  endif
+  set guifont=Iosevka:h16
   set clipboard=unnamedplus
   set completeopt=menu,menuone,noselect
   set noswapfile
-
-  set errorformat=%C%*\\s•\ %m,
-               \%-C\ %.%#,
-               \%A%f:%l:%c:\ %t%.%#
 ]])
+vim.g.neovide_input_macos_option_key_is_meta = 'both'
 -- set colorcolumn=90
 --
 --
@@ -177,7 +202,7 @@ vim.api.nvim_set_keymap('i', '<F1>', '<C-c>:Hoogle ', {})
 vim.api.nvim_set_keymap('n', ';', ':', {})
 
 vim.api.nvim_set_keymap('', '<A-t>', '<C-c>:Tags<CR>', {silent=true})
-vim.api.nvim_set_keymap('', '<A-g>', '<C-c>:Ghcid<CR>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-g>', '<C-c>:GitBlameToggle<CR>', {silent=true})
 
 -- Lsp save keymaps
 -- vim.api.nvim_set_keymap('n', 'ca', [[<Cmd>lua require('lspsaga.codeaction').code_action()<CR>]], {noremap = true, silent = true})
@@ -220,10 +245,16 @@ lsp_status.config({
     status_symbol = '',
   })
 --
--- local lualine = require('lualine')
--- lualine.setup{
+-- require('lualine').setup{
 --   options = {theme = 'solarized_light', icons_enabled = false},
---   sections = {lualine_c = {lsp_status.status, {'filename', full_path = true}}}
+--   sections = {
+--     lualine_a = {'mode'},
+--     lualine_b = {'branch', 'diff', 'diagnostics'},
+--     lualine_c = {'filename'},
+--     lualine_x = {'encoding', 'fileformat', 'filetype'},
+--     lualine_y = {'progress'},
+--     lualine_z = {'location'}
+--   }
 -- }
 
 --
@@ -271,13 +302,10 @@ end
 local servers =
   {  
     -- "hls",
-    "rust_analyzer",
-    "rnix"
+    "rust_analyzer"
   }
 local lspSettings =
-  { rnix = {}
-
-  , hls =
+  { hls =
       { haskell =
         { plugin =
           { hlint =

@@ -16,23 +16,18 @@ in
       pkgs.tmux
       pkgs-unstable.neovim
       pkgs.fzf
-      # pkgs.htop
-      pkgs.rnix-lsp
-      # pkgs.xclip
+      pkgs.nil
       pkgs.ripgrep
       pkgs.silver-searcher
       pkgs.fd
-      # pkgs.ncdu
-      # pkgs.httpie
-      # pkgs.jq
-      # pkgs.rustup
-      # pkgs.rust-analyzer
-      # pkgs.direnv
-      # pkgs.gnvim
-      # pkgs.neovide
-      # pkgs-unstable.obsidian
+      pkgs.yq-go
       pkgs-unstable.zellij
-      # pkgs-unstable.podman
+      pkgs-unstable.neovide
+      pkgs-unstable.kubectl
+      pkgs-unstable.kubectx
+      pkgs-unstable.spoofdpi
+      pkgs-unstable.eza
+      pkgs-unstable.alacritty
     ];
 
   # programs.direnv.enable = true;
@@ -54,11 +49,13 @@ in
       gm = "git merge --no-ff";
       gd = "git diff";
       gb = "git branch";
+      ls = "eza";
     };
     initExtra = ''
       export GIT_SSH=/usr/bin/ssh
       export FZF_DEFAULT_COMMAND='fd --type f'
-      export PATH=$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH:$HOME/.ghcup/bin:$HOME/.cabal/bin
+      export GEM_HOME=$HOME/.gem
+      export PATH=/opt/homebrew/opt/ruby/bin:$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH:$HOME/.ghcup/bin:$HOME/.cabal/bin:$GEM_HOME/bin
       '';
   };
 
@@ -75,4 +72,5 @@ in
   home.file.".config/nvim/init.lua".source = ./init.lua;
   home.file.".tmux.conf".source = ./tmux.conf;
   home.file.".config/alacritty/alacritty.yml".source = ./alacritty.yml;
+  home.file.".config/alacritty/alacritty.toml".source = ./alacritty.toml;
 }
