@@ -51,7 +51,7 @@ in
       gb = "git branch";
       ls = "eza";
     };
-    initExtra = ''
+    initContent = ''
       export GIT_SSH=/usr/bin/ssh
       export FZF_DEFAULT_COMMAND='fd --type f'
       export GEM_HOME=$HOME/.gem

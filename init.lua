@@ -105,14 +105,7 @@ require('lazy').setup({
   { "epszaw/hg.vim" },
   { "p00f/alabaster.nvim" },
   { "jecaro/ghcid-error-file.nvim" },
-  {
-    "folke/zen-mode.nvim",
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    }
-  }
+  { "pocco81/true-zen.nvim" }
 })
 -- packman.get("arkav/lualine-lsp-progress")
 
@@ -263,7 +256,7 @@ lsp_status.config({
 --
 
 --
-local nvim_lsp = require('lspconfig')
+-- local nvim_lsp = require('lspconfig')
 -- Use an on_attach function to only map the following keys 
 -- after the language server attaches to the current buffer
 local custom_on_attach = function(client, bufnr)
@@ -338,9 +331,16 @@ local lspSettings =
 --    "haskell.plugin.hlint.codeActionsOn": false
 
 for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
+--  nvim_lsp[lsp].setup {
+--    on_attach = custom_on_attach,
+--    settings = lspSettings[lsp],
+--    -- capabilities = capabilities,
+--  }
+
+  vim.lsp.config( lsp, {
     on_attach = custom_on_attach,
     settings = lspSettings[lsp],
-    -- capabilities = capabilities,
-  }
+    }
+  )
+
 end
