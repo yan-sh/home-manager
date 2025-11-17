@@ -5,9 +5,9 @@ let
   pkgs-unstable = import <nixpkgs-unstable> {};
 in
 {
-  home.username = "yanshkurinsky";
-  home.homeDirectory = "/Users/yanshkurinsky";
-  home.stateVersion = "23.05";
+  home.username = "freak";
+  home.homeDirectory = "/home/freak";
+  home.stateVersion = "25.05";
 
   programs.home-manager.enable = true;
 
@@ -55,7 +55,7 @@ in
       export GIT_SSH=/usr/bin/ssh
       export FZF_DEFAULT_COMMAND='fd --type f'
       export GEM_HOME=$HOME/.gem
-      export PATH=/opt/homebrew/opt/ruby/bin:$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH:$HOME/.ghcup/bin:$HOME/.cabal/bin:$GEM_HOME/bin
+      export PATH=$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH
       '';
   };
 

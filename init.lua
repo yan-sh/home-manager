@@ -35,7 +35,6 @@ require('lazy').setup({
   "nvim-lua/popup.nvim",
   "nvim-telescope/telescope.nvim",
   "nvim-lua/lsp_extensions.nvim",
-  "nvim-treesitter/nvim-treesitter",
   "preservim/tagbar",
   "liuchengxu/vista.vim",
   "relastle/bluewery.vim",
@@ -78,13 +77,6 @@ require('lazy').setup({
     config = function(plugin)
         vim.opt.rtp:append(plugin.dir .. "/plugins/nvim")
     end
-  },
-  {
-    "cuducos/yaml.nvim",
-    ft = { "yaml" },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    }
   },
   {
     "NeogitOrg/neogit",
