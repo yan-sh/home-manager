@@ -52,6 +52,7 @@
             tar -xzf "$src"
             mkdir -p "$out/bin"
             install -m755 bd "$out/bin/bd"
+            ln -s "$out/bin/bd" "$out/bin/beads"
             runHook postInstall
           '';
 
