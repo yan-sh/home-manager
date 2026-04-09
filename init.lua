@@ -97,7 +97,17 @@ require('lazy').setup({
   { "epszaw/hg.vim" },
   { "p00f/alabaster.nvim" },
   { "jecaro/ghcid-error-file.nvim" },
-  { "pocco81/true-zen.nvim" }
+  { "pocco81/true-zen.nvim" },
+  {
+      "kylechui/nvim-surround",
+      version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
+      event = "VeryLazy",
+      config = function()
+          require("nvim-surround").setup({
+              -- Configuration here, or leave empty to use defaults
+          })
+      end
+  },
 })
 -- packman.get("arkav/lualine-lsp-progress")
 

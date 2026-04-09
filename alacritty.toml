@@ -47,7 +47,6 @@ style = "Regular"
 [[keyboard.bindings]]
 action = "ToggleFullscreen"
 key = "F12"
-mods = "Command"
 
 [window]
 decorations = "full"

@@ -1,9 +1,4 @@
-{ config, ... }:
-
-let
-  pkgs = import <nixpkgs> {};
-  pkgs-unstable = import <nixpkgs-unstable> {};
-in
+{ config, pkgs ? import <nixpkgs> {}, pkgs-unstable ? import <nixpkgs-unstable> {}, beads ? null, ... }:
 {
   home.username = "freak";
   home.homeDirectory = "/home/freak";
@@ -27,8 +22,11 @@ in
       pkgs-unstable.kubectx
       pkgs-unstable.spoofdpi
       pkgs-unstable.eza
-      pkgs-unstable.alacritty
-    ];
+      pkgs-unstable.kubie
+      pkgs-unstable.codex
+      pkgs-unstable.argocd
+    ]
+    ++ (if beads == null then [] else [ beads ]);
 
   # programs.direnv.enable = true;
   # programs.direnv.nix-direnv.enable = true;
@@ -50,12 +48,17 @@ in
       gd = "git diff";
       gb = "git branch";
       ls = "eza";
+      claudex = "CLAUDE_CONFIG_DIR=~/.claudex claude";
+      claudez = "CLAUDE_CONFIG_DIR=~/.claudez claude";
+      nix-shell = "nix-shell --run zsh";
     };
     initContent = ''
       export GIT_SSH=/usr/bin/ssh
       export FZF_DEFAULT_COMMAND='fd --type f'
       export GEM_HOME=$HOME/.gem
-      export PATH=$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH
+      export PATH=$HOME/.local/bin:$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$HOME/.opencode/bin:$PATH
+      export EDITOR=nvim
+      export OPENCODE_EXPERIMENTAL_MARKDOWN=0
       '';
   };
 
