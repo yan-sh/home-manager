@@ -142,7 +142,5 @@
   home.file.".tmux.conf".source = ./tmux.conf;
   home.file.".config/alacritty/alacritty.yml".source = ./alacritty.yml;
   home.file.".config/alacritty/alacritty.toml".source = ./alacritty.toml;
-  home.file.".config/ghostty/config".text = ''
-    # Ghostty config
-  '';
+  home.file.".config/ghostty/config".source = ./ghostty;
 }
