@@ -39,7 +39,9 @@
     # ++ (if beads == null then [] else [ beads ]);
 
   # Явный .desktop entry для Ghostty — GNOME на Fedora не всегда видит
-  # .desktop из nix-профиля, пока не перелогиниться
+  # .desktop из nix-профиля, пока не перелогиниться.
+  # Оборачиваем через env с явными путями к Mesa драйверам хост-системы,
+  # иначе Nix-бинарник не может создать EGL context на Fedora Wayland.
   home.file.".local/share/applications/com.mitchellh.ghostty.desktop".text =
     lib.optionalString (ghosttyPkg != null) ''
       [Desktop Entry]
@@ -47,7 +49,7 @@
       Name=Ghostty
       GenericName=Terminal Emulator
       Comment=A terminal emulator
-      Exec=ghostty --gtk-single-instance=true
+      Exec=env LIBGL_DRIVERS_PATH=/usr/lib64/dri __EGL_VENDOR_LIBRARY_DIRS=/usr/share/glvnd/egl_vendor.d:/etc/glvnd/egl_vendor.d ${config.home.profileDirectory}/bin/ghostty --gtk-single-instance=true
       Icon=com.mitchellh.ghostty
       Type=Application
       Categories=System;TerminalEmulator;
@@ -57,6 +59,17 @@
       Terminal=false
       X-GNOME-UsesNotifications=true
     '';
+
+  # Wrapper-скрипт в ~/.local/bin, который экспортирует Mesa-переменные
+  # и вызывает настоящий ghostty. Это покрывает запуск из терминала.
+  home.file.".local/bin/ghostty".source =
+    if ghosttyPkg != null
+    then pkgs.writeShellScript "ghostty" ''
+      export LIBGL_DRIVERS_PATH=/usr/lib64/dri
+      export __EGL_VENDOR_LIBRARY_DIRS=/usr/share/glvnd/egl_vendor.d:/etc/glvnd/egl_vendor.d
+      exec ${ghosttyPkg}/bin/ghostty "$@"
+    ''
+    else null;
 
 
   # Симлинкуем иконки Ghostty в ~/.local/share/icons, чтобы GNOME их подхватил
