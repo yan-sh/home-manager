@@ -43,7 +43,7 @@
       Name=Ghostty
       GenericName=Terminal Emulator
       Comment=A terminal emulator
-      Exec=${config.home.profileDirectory}/bin/nixGLIntel ${config.home.profileDirectory}/bin/ghostty --gtk-single-instance=true
+      Exec=env GDK_BACKEND=x11 ${config.home.profileDirectory}/bin/nixGLIntel ${config.home.profileDirectory}/bin/ghostty --gtk-single-instance=true
       Icon=com.mitchellh.ghostty
       Type=Application
       Categories=System;TerminalEmulator;
@@ -54,11 +54,12 @@
       X-GNOME-UsesNotifications=true
     '';
 
-  # Wrapper-скрипт в ~/.local/bin, который запускает ghostty через nixGLIntel.
-  # Это покрывает запуск из терминала.
+  # Wrapper-скрипт в ~/.local/bin, который запускает ghostty через nixGLIntel
+  # с принудительным X11/XWayland backend (обход EGL-ошибки на Wayland).
   home.file.".local/bin/ghostty".source =
     if (ghosttyPkg != null) && (nixGLIntel != null)
     then pkgs.writeShellScript "ghostty" ''
+      export GDK_BACKEND=x11
       exec ${nixGLIntel}/bin/nixGLIntel ${ghosttyPkg}/bin/ghostty "$@"
     ''
     else null;
