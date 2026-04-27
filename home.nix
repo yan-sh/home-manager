@@ -1,4 +1,4 @@
-{ config, pkgs ? import <nixpkgs> {}, pkgs-unstable ? import <nixpkgs-unstable> {}, beads ? null, ... }:
+{ config, pkgs ? import <nixpkgs> {}, pkgs-unstable ? import <nixpkgs-unstable> {}, beads ? null, ghosttyPkg ? null, ... }:
 {
   home.username = "freak";
   home.homeDirectory = "/home/freak";
@@ -6,15 +6,18 @@
 
   programs.home-manager.enable = true;
 
+  xdg.enable = true;
+  targets.genericLinux.enable = true;
+
   home.packages = 
     [
-      pkgs.tmux
+      pkgs-unstable.tmux
       pkgs-unstable.neovim
-      pkgs.fzf
+      pkgs-unstable.fzf
       pkgs.nil
-      pkgs.ripgrep
-      pkgs.silver-searcher
-      pkgs.fd
+      pkgs-unstable.ripgrep
+      pkgs-unstable.silver-searcher
+      pkgs-unstable.fd
       pkgs.yq-go
       pkgs-unstable.zellij
       pkgs-unstable.neovide
@@ -26,7 +29,8 @@
       pkgs-unstable.codex
       pkgs-unstable.argocd
     ]
-    ++ (if beads == null then [] else [ beads ]);
+    ++ (if ghosttyPkg == null then [] else [ ghosttyPkg ]);
+    # ++ (if beads == null then [] else [ beads ]);
 
   # programs.direnv.enable = true;
   # programs.direnv.nix-direnv.enable = true;

@@ -9,9 +9,14 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ... }:
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ghostty, ... }:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -52,7 +57,6 @@
             tar -xzf "$src"
             mkdir -p "$out/bin"
             install -m755 bd "$out/bin/bd"
-            ln -s "$out/bin/bd" "$out/bin/beads"
             runHook postInstall
           '';
 
@@ -79,6 +83,8 @@
       };
 
       beads = mkBeads pkgs;
+
+      ghosttyPkg = ghostty.packages.${system}.default;
     in
     {
       packages.${system} = {
@@ -89,7 +95,7 @@
       homeConfigurations.freak = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {
-          inherit pkgs-unstable beads;
+          inherit pkgs-unstable beads ghosttyPkg;
         };
         modules = [ ./home.nix ];
       };
