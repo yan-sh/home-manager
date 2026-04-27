@@ -14,9 +14,14 @@
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    nixgl = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ghostty, ... }:
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ghostty, nixgl, ... }:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -85,6 +90,7 @@
       beads = mkBeads pkgs;
 
       ghosttyPkg = ghostty.packages.${system}.default;
+      nixGLIntel = nixgl.packages.${system}.nixGLIntel;
     in
     {
       packages.${system} = {
@@ -95,7 +101,7 @@
       homeConfigurations.freak = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {
-          inherit pkgs-unstable beads ghosttyPkg;
+          inherit pkgs-unstable beads ghosttyPkg nixGLIntel;
         };
         modules = [ ./home.nix ];
       };

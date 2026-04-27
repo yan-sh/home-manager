@@ -1,4 +1,4 @@
-{ config, lib, pkgs ? import <nixpkgs> {}, pkgs-unstable ? import <nixpkgs-unstable> {}, beads ? null, ghosttyPkg ? null, ... }:
+{ config, lib, pkgs ? import <nixpkgs> {}, pkgs-unstable ? import <nixpkgs-unstable> {}, beads ? null, ghosttyPkg ? null, nixGLIntel ? null, ... }:
 {
   home.username = "freak";
   home.homeDirectory = "/home/freak";
@@ -8,12 +8,6 @@
 
   xdg.enable = true;
   targets.genericLinux.enable = true;
-
-  home.sessionVariables = {
-    # Mesa/EGL из Fedora — Nix-бинарники не видят host-драйверы
-    LIBGL_DRIVERS_PATH = "/usr/lib64/dri";
-    __EGL_VENDOR_LIBRARY_DIRS = "/usr/share/glvnd/egl_vendor.d:/etc/glvnd/egl_vendor.d";
-  };
 
   home.packages = 
     [
@@ -35,21 +29,21 @@
       pkgs-unstable.codex
       pkgs-unstable.argocd
     ]
-    ++ (if ghosttyPkg == null then [] else [ ghosttyPkg ]);
+    ++ (if ghosttyPkg == null then [] else [ ghosttyPkg ])
+    ++ (if nixGLIntel == null then [] else [ nixGLIntel ]);
     # ++ (if beads == null then [] else [ beads ]);
 
   # Явный .desktop entry для Ghostty — GNOME на Fedora не всегда видит
-  # .desktop из nix-профиля, пока не перелогиниться.
-  # Оборачиваем через env с явными путями к Mesa драйверам хост-системы,
-  # иначе Nix-бинарник не может создать EGL context на Fedora Wayland.
+  # .desktop из nix-профиля. Запускаем через nixGLIntel, который корректно
+  # пробрасывает host OpenGL/EGL для Nix-бинарников на не-NixOS системах.
   home.file.".local/share/applications/com.mitchellh.ghostty.desktop".text =
-    lib.optionalString (ghosttyPkg != null) ''
+    lib.optionalString ((ghosttyPkg != null) && (nixGLIntel != null)) ''
       [Desktop Entry]
       Version=1.0
       Name=Ghostty
       GenericName=Terminal Emulator
       Comment=A terminal emulator
-      Exec=env LIBGL_DRIVERS_PATH=/usr/lib64/dri __EGL_VENDOR_LIBRARY_DIRS=/usr/share/glvnd/egl_vendor.d:/etc/glvnd/egl_vendor.d ${config.home.profileDirectory}/bin/ghostty --gtk-single-instance=true
+      Exec=${config.home.profileDirectory}/bin/nixGLIntel ${config.home.profileDirectory}/bin/ghostty --gtk-single-instance=true
       Icon=com.mitchellh.ghostty
       Type=Application
       Categories=System;TerminalEmulator;
@@ -60,14 +54,12 @@
       X-GNOME-UsesNotifications=true
     '';
 
-  # Wrapper-скрипт в ~/.local/bin, который экспортирует Mesa-переменные
-  # и вызывает настоящий ghostty. Это покрывает запуск из терминала.
+  # Wrapper-скрипт в ~/.local/bin, который запускает ghostty через nixGLIntel.
+  # Это покрывает запуск из терминала.
   home.file.".local/bin/ghostty".source =
-    if ghosttyPkg != null
+    if (ghosttyPkg != null) && (nixGLIntel != null)
     then pkgs.writeShellScript "ghostty" ''
-      export LIBGL_DRIVERS_PATH=/usr/lib64/dri
-      export __EGL_VENDOR_LIBRARY_DIRS=/usr/share/glvnd/egl_vendor.d:/etc/glvnd/egl_vendor.d
-      exec ${ghosttyPkg}/bin/ghostty "$@"
+      exec ${nixGLIntel}/bin/nixGLIntel ${ghosttyPkg}/bin/ghostty "$@"
     ''
     else null;
 
@@ -91,10 +83,10 @@
   '');
 
   # Импортируем переменные окружения в systemd user session,
-  # чтобы GNOME Wayland их видел при запуске из launcher
+  # чтобы GNOME Wayland видел XDG_DATA_DIRS при запуске из launcher
   home.activation.importEnvToSystemd = lib.hm.dag.entryAfter ["linkGhosttyIcons"] ''
     if command -v systemctl >/dev/null 2>&1; then
-      $DRY_RUN_CMD systemctl --user import-environment XDG_DATA_DIRS LIBGL_DRIVERS_PATH __EGL_VENDOR_LIBRARY_DIRS 2>/dev/null || true
+      $DRY_RUN_CMD systemctl --user import-environment XDG_DATA_DIRS 2>/dev/null || true
     fi
   '';
 
