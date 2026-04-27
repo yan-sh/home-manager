@@ -1,4 +1,4 @@
-{ config, pkgs ? import <nixpkgs> {}, pkgs-unstable ? import <nixpkgs-unstable> {}, beads ? null, ghosttyPkg ? null, ... }:
+{ config, lib, pkgs ? import <nixpkgs> {}, pkgs-unstable ? import <nixpkgs-unstable> {}, beads ? null, ghosttyPkg ? null, ... }:
 {
   home.username = "freak";
   home.homeDirectory = "/home/freak";
@@ -8,6 +8,12 @@
 
   xdg.enable = true;
   targets.genericLinux.enable = true;
+
+  home.sessionVariables = {
+    # Mesa/EGL из Fedora — Nix-бинарники не видят host-драйверы
+    LIBGL_DRIVERS_PATH = "/usr/lib64/dri";
+    __EGL_VENDOR_LIBRARY_DIRS = "/usr/share/glvnd/egl_vendor.d:/etc/glvnd/egl_vendor.d";
+  };
 
   home.packages = 
     [
@@ -31,6 +37,53 @@
     ]
     ++ (if ghosttyPkg == null then [] else [ ghosttyPkg ]);
     # ++ (if beads == null then [] else [ beads ]);
+
+  # Явный .desktop entry для Ghostty — GNOME на Fedora не всегда видит
+  # .desktop из nix-профиля, пока не перелогиниться
+  home.file.".local/share/applications/com.mitchellh.ghostty.desktop".text =
+    lib.optionalString (ghosttyPkg != null) ''
+      [Desktop Entry]
+      Version=1.0
+      Name=Ghostty
+      GenericName=Terminal Emulator
+      Comment=A terminal emulator
+      Exec=ghostty --gtk-single-instance=true
+      Icon=com.mitchellh.ghostty
+      Type=Application
+      Categories=System;TerminalEmulator;
+      Keywords=terminal;tty;pty;
+      StartupNotify=true
+      StartupWMClass=com.mitchellh.ghostty
+      Terminal=false
+      X-GNOME-UsesNotifications=true
+    '';
+
+
+  # Симлинкуем иконки Ghostty в ~/.local/share/icons, чтобы GNOME их подхватил
+  # без перезапуска сессии и независимо от XDG_DATA_DIRS
+  home.activation.linkGhosttyIcons = lib.hm.dag.entryAfter ["writeBoundary"] (lib.optionalString (ghosttyPkg != null) ''
+    $DRY_RUN_CMD mkdir -p $HOME/.local/share/icons
+    for sz in 16x16 32x32 128x128 256x256 512x512 1024x1024; do
+      for variant in "$sz" "$sz"@2; do
+        src="${ghosttyPkg}/share/icons/hicolor/$variant/apps/com.mitchellh.ghostty.png"
+        if [ -e "$src" ]; then
+          dst="$HOME/.local/share/icons/hicolor/$variant/apps"
+          $DRY_RUN_CMD mkdir -p "$dst"
+          $DRY_RUN_CMD ln -sf "$src" "$dst/com.mitchellh.ghostty.png"
+        fi
+      done
+    done
+    # Обновляем кэш иконок
+    $DRY_RUN_CMD ${pkgs.gtk3}/bin/gtk-update-icon-cache -f -t "$HOME/.local/share/icons/hicolor" 2>/dev/null || true
+  '');
+
+  # Импортируем переменные окружения в systemd user session,
+  # чтобы GNOME Wayland их видел при запуске из launcher
+  home.activation.importEnvToSystemd = lib.hm.dag.entryAfter ["linkGhosttyIcons"] ''
+    if command -v systemctl >/dev/null 2>&1; then
+      $DRY_RUN_CMD systemctl --user import-environment XDG_DATA_DIRS LIBGL_DRIVERS_PATH __EGL_VENDOR_LIBRARY_DIRS 2>/dev/null || true
+    fi
+  '';
 
   # programs.direnv.enable = true;
   # programs.direnv.nix-direnv.enable = true;
