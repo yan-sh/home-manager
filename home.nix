@@ -114,6 +114,9 @@
       claudex = "CLAUDE_CONFIG_DIR=~/.claudex claude";
       claudez = "CLAUDE_CONFIG_DIR=~/.claudez claude";
       nix-shell = "nix-shell --run zsh";
+    }
+    // lib.optionalAttrs ((ghosttyPkg != null) && (nixGLIntel != null)) {
+      ghostty = "GDK_BACKEND=x11 ${config.home.profileDirectory}/bin/nixGLIntel ${config.home.profileDirectory}/bin/ghostty";
     };
     initContent = ''
       export GIT_SSH=/usr/bin/ssh
@@ -139,4 +142,7 @@
   home.file.".tmux.conf".source = ./tmux.conf;
   home.file.".config/alacritty/alacritty.yml".source = ./alacritty.yml;
   home.file.".config/alacritty/alacritty.toml".source = ./alacritty.toml;
+  home.file.".config/ghostty/config".text = ''
+    # Ghostty config
+  '';
 }
