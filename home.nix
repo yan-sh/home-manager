@@ -1,4 +1,4 @@
-{ config, lib, pkgs ? import <nixpkgs> {}, pkgs-unstable ? import <nixpkgs-unstable> {}, beads ? null, ghosttyPkg ? null, nixGLIntel ? null, ... }:
+{ config, lib, pkgs ? import <nixpkgs> {}, pkgs-unstable ? import <nixpkgs-unstable> {}, beads ? null, ghosttyPkg ? null, nixGLIntel ? null, ketchPkg ? null, ... }:
 {
   home.username = "freak";
   home.homeDirectory = "/home/freak";
@@ -28,6 +28,7 @@
       pkgs-unstable.kubie
       pkgs-unstable.codex
       pkgs-unstable.argocd
+      ketchPkg
     ]
     ++ (if ghosttyPkg == null then [] else [ ghosttyPkg ])
     ++ (if nixGLIntel == null then [] else [ nixGLIntel ]);
@@ -36,6 +37,7 @@
   # Явный .desktop entry для Ghostty — GNOME на Fedora не всегда видит
   # .desktop из nix-профиля. Запускаем через nixGLIntel, который корректно
   # пробрасывает host OpenGL/EGL для Nix-бинарников на не-NixOS системах.
+  # GSK_RENDERER=ngl стабильнее умолчательного GL с GTK4 + nixGL.
   home.file.".local/share/applications/com.mitchellh.ghostty.desktop".text =
     lib.optionalString ((ghosttyPkg != null) && (nixGLIntel != null)) ''
       [Desktop Entry]
@@ -43,7 +45,7 @@
       Name=Ghostty
       GenericName=Terminal Emulator
       Comment=A terminal emulator
-      Exec=env GDK_BACKEND=x11 ${config.home.profileDirectory}/bin/nixGLIntel ${config.home.profileDirectory}/bin/ghostty --gtk-single-instance=true
+      Exec=env GDK_BACKEND=x11 GSK_RENDERER=ngl ${config.home.profileDirectory}/bin/nixGLIntel ${config.home.profileDirectory}/bin/ghostty --gtk-single-instance=true
       Icon=com.mitchellh.ghostty
       Type=Application
       Categories=System;TerminalEmulator;
@@ -55,11 +57,13 @@
     '';
 
   # Wrapper-скрипт в ~/.local/bin, который запускает ghostty через nixGLIntel
-  # с принудительным X11/XWayland backend (обход EGL-ошибки на Wayland).
+  # с принудительным X11/XWayland backend и стабильным GTK-рендерером
+  # (обход EGL-ошибки на Wayland).
   home.file.".local/bin/ghostty".source =
     if (ghosttyPkg != null) && (nixGLIntel != null)
     then pkgs.writeShellScript "ghostty" ''
       export GDK_BACKEND=x11
+      export GSK_RENDERER=ngl
       exec ${nixGLIntel}/bin/nixGLIntel ${ghosttyPkg}/bin/ghostty "$@"
     ''
     else null;
@@ -116,7 +120,7 @@
       nix-shell = "nix-shell --run zsh";
     }
     // lib.optionalAttrs ((ghosttyPkg != null) && (nixGLIntel != null)) {
-      ghostty = "GDK_BACKEND=x11 ${config.home.profileDirectory}/bin/nixGLIntel ${config.home.profileDirectory}/bin/ghostty";
+      ghostty = "GDK_BACKEND=x11 GSK_RENDERER=ngl ${config.home.profileDirectory}/bin/nixGLIntel ${config.home.profileDirectory}/bin/ghostty";
     };
     initContent = ''
       export GIT_SSH=/usr/bin/ssh

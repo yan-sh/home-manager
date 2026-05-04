@@ -101,6 +101,23 @@
         "type": "github"
       }
     },
+    "ketch": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777729063,
+        "narHash": "sha256-3EzXjF6TJqNSm2ZxU0vHc925ks880zezgaAjoZD+Tpo=",
+        "owner": "1broseidon",
+        "repo": "ketch",
+        "rev": "025f53338325d811bcd0f312549590889add08f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "1broseidon",
+        "ref": "v0.8.0",
+        "repo": "ketch",
+        "type": "github"
+      }
+    },
     "nixgl": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -158,6 +175,7 @@
       "inputs": {
         "ghostty": "ghostty",
         "home-manager": "home-manager_2",
+        "ketch": "ketch",
         "nixgl": "nixgl",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable"

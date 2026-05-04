@@ -19,12 +19,40 @@
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    ketch = {
+      url = "github:1broseidon/ketch/v0.8.0";
+      flake = false;
+    };
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ghostty, nixgl, ... }:
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ghostty, nixgl, ketch, ... }:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
+
+      mkKetch = pkgs: pkgs.buildGoModule {
+        pname = "ketch";
+        version = "0.8.0";
+
+        src = ketch;
+
+        vendorHash = "sha256-m3IwAYsczsxcVk9fay+f2AsNjmXoPk7NS0abES6b594=";
+
+        ldflags = [
+          "-s"
+          "-w"
+          "-X github.com/1broseidon/ketch/cmd.version=0.8.0"
+        ];
+
+        meta = with lib; {
+          description = "Fast, stateless CLI for web search and scrape. Built for AI agents.";
+          homepage = "https://github.com/1broseidon/ketch";
+          license = licenses.mit;
+          mainProgram = "ketch";
+          platforms = platforms.linux ++ platforms.darwin;
+        };
+      };
 
       mkBeads = pkgs:
         let
@@ -91,17 +119,18 @@
 
       ghosttyPkg = ghostty.packages.${system}.default;
       nixGLIntel = nixgl.packages.${system}.nixGLIntel;
+      ketchPkg = mkKetch pkgs-unstable;
     in
     {
       packages.${system} = {
-        inherit beads;
+        inherit beads ketchPkg;
         default = beads;
       };
 
       homeConfigurations.freak = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {
-          inherit pkgs-unstable beads ghosttyPkg nixGLIntel;
+          inherit pkgs-unstable beads ghosttyPkg nixGLIntel ketchPkg;
         };
         modules = [ ./home.nix ];
       };
