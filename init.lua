@@ -297,7 +297,8 @@ end
 local servers =
   {  
     -- "hls",
-    "rust_analyzer"
+    "rust_analyzer",
+    "gopls"
   }
 local lspSettings =
   { hls =
@@ -344,5 +345,6 @@ for _, lsp in ipairs(servers) do
     settings = lspSettings[lsp],
     }
   )
+  vim.lsp.enable(lsp)
 
 end

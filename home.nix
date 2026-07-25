@@ -15,6 +15,7 @@
       pkgs-unstable.neovim
       pkgs-unstable.fzf
       pkgs.nil
+      pkgs-unstable.gopls
       pkgs-unstable.ripgrep
       pkgs-unstable.silver-searcher
       pkgs-unstable.fd
