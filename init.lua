@@ -3,7 +3,7 @@
 -- vim.cmd [[packadd packer.nvim]]
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -23,8 +23,45 @@ require('lazy').setup({
   "neovim/nvim-lspconfig",
   "nvim-lua/lsp-status.nvim",
   "neovimhaskell/haskell-vim",
-  "junegunn/fzf",
-  "junegunn/fzf.vim",
+  {
+    "ibhagwan/fzf-lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      local fzf = require("fzf-lua")
+
+      fzf.setup({
+        "fzf-vim",
+        winopts = {
+          preview = {
+            hidden = false,
+            layout = "horizontal",
+            horizontal = "right:50%",
+          },
+        },
+      })
+
+      -- Compatibility aliases for the old fzf.vim commands used below in keymaps.
+      vim.api.nvim_create_user_command("FZF", function(opts)
+        fzf.files({ cwd = opts.args ~= "" and opts.args or nil}) 
+      end, { nargs = "?", complete = "dir", force = true })
+
+      vim.api.nvim_create_user_command("Buffers", function()
+        fzf.buffers()
+      end, { force = true })
+
+      vim.api.nvim_create_user_command("Ag", function(opts)
+        if opts.args ~= "" then
+          fzf.grep_project({ search = opts.args })
+        else
+          fzf.live_grep()
+        end
+      end, { nargs = "*", force = true })
+
+      vim.api.nvim_create_user_command("Tags", function(opts)
+        fzf.tags({ search = opts.args ~= "" and opts.args or nil })
+      end, { nargs = "?", force = true })
+    end,
+  },
   "Twinside/vim-hoogle",
   {
     'nvim-lualine/lualine.nvim',
@@ -180,6 +217,7 @@ vim.api.nvim_set_keymap('i', '<A-l>', '<C-c><C-w>l', {silent=true})
 vim.api.nvim_set_keymap('', '<A-f>', '<C-c>:FZF<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-b>', '<C-c>:Buffers<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-a>', '<C-c>:Ag<CR>', {silent=true})
+vim.api.nvim_set_keymap('', '<A-/>', '<C-c>:FzfLua lsp_live_workspace_symbols<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-s>', '<Cmd>lua vim.cmd("w")<CR>', {silent=true})
 -- vim.api.nvim_set_keymap('i', '<A-s>', '<C-c>:w<CR>', {silent=true})
 
@@ -210,7 +248,7 @@ vim.api.nvim_set_keymap('', '<A-]>', '<C-c>:cnext<CR><C-c>', {silent=true})
 vim.api.nvim_set_keymap('', '<F5>', '<C-c>:cfile quickfix<CR><C-c>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-c>', '<Cmd>lua vim.cmd("cclose")<CR>', {silent=true})
 vim.api.nvim_set_keymap('', '<A-o>', '<Cmd>lua vim.cmd("copen")<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', 'gd', '<C-c>g[<CR>', {silent=true})
+-- vim.api.nvim_set_keymap('n', 'gd', '<C-c>g[<CR>', {silent=true})
 
 --
 -- Neogit
@@ -259,20 +297,31 @@ lsp_status.config({
 
 --
 -- local nvim_lsp = require('lspconfig')
+
+local function diagnostic_jump(count)
+  vim.diagnostic.jump({
+    count = count,
+    on_jump = function()
+      vim.diagnostic.open_float({ scope = "cursor", focus = false })
+    end,
+  })
+end
+
 -- Use an on_attach function to only map the following keys 
 -- after the language server attaches to the current buffer
 local custom_on_attach = function(client, bufnr)
+  local opts = { noremap=true, silent=true }
+  local buffer_opts = vim.tbl_extend('force', opts, { buf = bufnr })
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  local function buf_map(mode, lhs, rhs) vim.keymap.set(mode, lhs, rhs, buffer_opts) end
 
   -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = bufnr })
   -- lsp_status.on_attach(client, bufnr)
 -- Mappings.
-  local opts = { noremap=true, silent=true }
 -- See :help vim.lsp.* for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  --buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -284,11 +333,11 @@ local custom_on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float({scope="line"})<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_map('n', '[d', function() diagnostic_jump(-1) end)
+  buf_map('n', ']d', function() diagnostic_jump(1) end)
+  buf_map('n', '<space>a', vim.diagnostic.setloclist)
   buf_set_keymap('', '<A-e>', '<cmd>lua show_lsp_quickfix()<CR>', opts)
-  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  buf_map("n", "<space>f", function() vim.lsp.buf.format({ async = true }) end)
   buf_set_keymap("n", "<space>s", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", opts)
   
 end
@@ -300,6 +349,7 @@ local servers =
     "rust_analyzer",
     "gopls"
   }
+
 local lspSettings =
   { hls =
       { haskell =
@@ -326,6 +376,7 @@ local lspSettings =
           }
         }
       }
+
   }
 
 
@@ -348,3 +399,27 @@ for _, lsp in ipairs(servers) do
   vim.lsp.enable(lsp)
 
 end
+
+vim.lsp.config('phpactor', {
+  cmd = { 'phpactor', 'language-server' },
+  filetypes = { 'php' },
+  root_markers = { 'composer.json', '.git' },
+})
+
+vim.lsp.enable('phpactor')
+
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    -- Check if the client supports formatting
+    if client and client.supports_method('textDocument/formatting') then
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        buffer = args.buf,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = args.buf, async = false })
+        end,
+      })
+    end
+  end,
+})

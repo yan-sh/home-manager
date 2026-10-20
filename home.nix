@@ -15,7 +15,6 @@
       pkgs-unstable.neovim
       pkgs-unstable.fzf
       pkgs.nil
-      pkgs-unstable.gopls
       pkgs-unstable.ripgrep
       pkgs-unstable.silver-searcher
       pkgs-unstable.fd
@@ -29,7 +28,10 @@
       pkgs-unstable.kubie
       pkgs-unstable.codex
       pkgs-unstable.argocd
+      pkgs-unstable.bat
       ketchPkg
+      pkgs-unstable.k9s
+      pkgs-unstable.delta
     ]
     ++ (if ghosttyPkg == null then [] else [ ghosttyPkg ])
     ++ (if nixGLIntel == null then [] else [ nixGLIntel ]);
@@ -119,6 +121,7 @@
       claudex = "CLAUDE_CONFIG_DIR=~/.claudex claude";
       claudez = "CLAUDE_CONFIG_DIR=~/.claudez claude";
       nix-shell = "nix-shell --run zsh";
+      k = "kubectl";
     }
     // lib.optionalAttrs ((ghosttyPkg != null) && (nixGLIntel != null)) {
       ghostty = "GDK_BACKEND=x11 GSK_RENDERER=ngl ${config.home.profileDirectory}/bin/nixGLIntel ${config.home.profileDirectory}/bin/ghostty";
@@ -127,9 +130,10 @@
       export GIT_SSH=/usr/bin/ssh
       export FZF_DEFAULT_COMMAND='fd --type f'
       export GEM_HOME=$HOME/.gem
-      export PATH=$HOME/.local/bin:$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$HOME/.opencode/bin:$PATH
+      export PATH=$HOME/.local/bin:$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$HOME/.opencode/bin:$HOME/.local/share/pi-node/node-v22.23.1-linux-x64/bin:$PATH
       export EDITOR=nvim
       export OPENCODE_EXPERIMENTAL_MARKDOWN=0
+      stty eof undef
       '';
   };
 
@@ -148,4 +152,5 @@
   home.file.".config/alacritty/alacritty.yml".source = ./alacritty.yml;
   home.file.".config/alacritty/alacritty.toml".source = ./alacritty.toml;
   home.file.".config/ghostty/config".source = ./ghostty;
+  home.file.".gitconfig".source = ./gitconfig;
 }
