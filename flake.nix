@@ -10,10 +10,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ghostty = {
-      url = "github:ghostty-org/ghostty/v1.4.0";
-    };
-
     nixgl = {
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,13 +21,7 @@
     };
   };
 
-  # On multi-user Nix, the daemon must also trust this substituter and key.
-  nixConfig = {
-    extra-substituters = [ "https://ghostty.cachix.org" ];
-    extra-trusted-public-keys = [ "ghostty.cachix.org-1:QB389yTa6gTyneehvqG58y0WnHjQOqgnA+wBnpWWxns=" ];
-  };
-
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ghostty, nixgl, ketch, ... }:
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, nixgl, ketch, ... }:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -122,7 +112,7 @@
 
       beads = mkBeads pkgs;
 
-      ghosttyPkg = ghostty.packages.${system}.default;
+      ghosttyPkg = pkgs-unstable.ghostty;
       nixGLIntel = nixgl.packages.${system}.nixGLIntel;
       ketchPkg = mkKetch pkgs-unstable;
     in
