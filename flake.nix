@@ -11,8 +11,7 @@
     };
 
     ghostty = {
-      url = "github:ghostty-org/ghostty";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      url = "github:ghostty-org/ghostty/v1.4.0";
     };
 
     nixgl = {
@@ -24,6 +23,12 @@
       url = "github:1broseidon/ketch/v0.8.0";
       flake = false;
     };
+  };
+
+  # On multi-user Nix, the daemon must also trust this substituter and key.
+  nixConfig = {
+    extra-substituters = [ "https://ghostty.cachix.org" ];
+    extra-trusted-public-keys = [ "ghostty.cachix.org-1:QB389yTa6gTyneehvqG58y0WnHjQOqgnA+wBnpWWxns=" ];
   };
 
   outputs = { nixpkgs, nixpkgs-unstable, home-manager, ghostty, nixgl, ketch, ... }:
