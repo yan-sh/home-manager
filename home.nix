@@ -16,7 +16,7 @@
       pkgs-unstable.fzf
       pkgs.nil
       pkgs-unstable.ripgrep
-      pkgs-unstable.silver-searcher
+      pkgs-unstable.silver-searcher-ng
       pkgs-unstable.fd
       pkgs.yq-go
       pkgs-unstable.zellij
