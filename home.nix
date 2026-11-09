@@ -134,6 +134,9 @@
       export EDITOR=nvim
       export OPENCODE_EXPERIMENTAL_MARKDOWN=0
       stty eof undef
+      if [[ -n "''${IN_NIX_SHELL:-}" ]]; then
+        PROMPT="(nix-shell) $PROMPT"
+      fi
       '';
   };
 
