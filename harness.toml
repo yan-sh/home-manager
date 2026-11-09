@@ -1,0 +1,30 @@
+version = 1
+
+[harness]
+name = "pi"                 # claude | codex | opencode | pi
+args = []
+
+[harness.state]
+enabled = true
+# paths = ["${HOME}/.codex"]
+
+[runtime]
+engine = "podman"                # auto | docker | podman
+
+[workspace]
+# target = "/project"          # default: /<name of launch directory>
+
+# Общие скиллы сохраняются на хосте между запусками контейнера.
+[[mounts]]
+source = "${HOME}/.agents"
+target = "/home/agent/.agents"
+mode = "rw"
+create = true
+
+[software.nix]
+enabled = true
+store_dir = "${HOME}/.local/share/harness-container/nix"
+packages = ["nixpkgs#python3"]    # for example: ["nixpkgs#jq"]
+
+[software.nix.settings]
+experimental-features = "nix-command flakes"
