@@ -21,6 +21,13 @@
 
   xdg.enable = true;
   targets.genericLinux.enable = pkgs.stdenv.hostPlatform.isLinux;
+  # Spotlight не индексирует .app за симлинками в /nix/store.
+  # copyApps отсутствует в Home Manager 25.05, используем его только при наличии.
+  # Для обновления копий macOS требует разрешение App Management у терминала.
+  targets.darwin = lib.optionalAttrs (options.targets.darwin ? copyApps) {
+    linkApps.enable = false;
+    copyApps.enable = pkgs.stdenv.hostPlatform.isDarwin;
+  };
 
   home.packages = 
     [
