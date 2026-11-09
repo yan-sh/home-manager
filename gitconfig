@@ -1,2 +1,4 @@
 [core]
     pager = delta
+[delta]
+    side-by-side = true
