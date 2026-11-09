@@ -4,7 +4,10 @@
   _module.args = {
     pkgs-unstable = lib.mkDefault (import <nixpkgs-unstable> { inherit (pkgs.stdenv.hostPlatform) system; });
     beads = lib.mkDefault null;
-    ghosttyPkg = lib.mkDefault null;
+    # Нативный .app для macOS; Linux получает Ghostty и nixGL из flake.nix.
+    ghosttyPkg = lib.mkDefault (
+      if pkgs.stdenv.hostPlatform.isDarwin then pkgs-unstable.ghostty-bin else null
+    );
     nixGLIntel = lib.mkDefault null;
     ketchPkg = lib.mkDefault null;
   };
