@@ -29,8 +29,9 @@
 
   outputs = { nixpkgs, nixpkgs-unstable, home-manager, nixgl, ketch, workmux, ... }:
     let
-      system = "x86_64-linux";
       lib = nixpkgs.lib;
+      # Current nixpkgs-unstable no longer supports Intel macOS.
+      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
 
       mkKetch = pkgs: pkgs.buildGoModule {
         pname = "ketch";
@@ -108,31 +109,36 @@
           };
         };
 
-      pkgs = import nixpkgs {
-        inherit system;
-      };
+      packages = lib.genAttrs systems (system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+          pkgs-unstable = import nixpkgs-unstable { inherit system; };
+          beads = mkBeads pkgs;
+        in {
+          inherit beads;
+          ketchPkg = mkKetch pkgs-unstable;
+          workmuxPkg = workmux.packages.${system}.default.overrideAttrs (_: {
+            # Skip upstream tests to keep builds from Git fast.
+            doCheck = false;
+          });
+          default = beads;
+        });
 
-      pkgs-unstable = import nixpkgs-unstable {
-        inherit system;
-      };
-
-      beads = mkBeads pkgs;
-
-      ghosttyPkg = pkgs-unstable.ghostty;
-      nixGLIntel = nixgl.packages.${system}.nixGLIntel;
-      ketchPkg = mkKetch pkgs-unstable;
-      workmuxPkg = workmux.packages.${system}.default;
+      # Existing Linux Home Manager profile; plain switch uses the host platform.
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
+      pkgs-unstable = import nixpkgs-unstable { inherit system; };
     in
     {
-      packages.${system} = {
-        inherit beads ketchPkg workmuxPkg;
-        default = beads;
-      };
+      inherit packages;
 
       homeConfigurations.freak = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {
-          inherit pkgs-unstable beads ghosttyPkg nixGLIntel ketchPkg workmuxPkg;
+          inherit pkgs-unstable;
+          inherit (packages.${system}) beads ketchPkg workmuxPkg;
+          ghosttyPkg = pkgs-unstable.ghostty;
+          nixGLIntel = nixgl.packages.${system}.nixGLIntel;
         };
         modules = [ ./home.nix ];
       };

@@ -10,7 +10,11 @@
     );
     nixGLIntel = lib.mkDefault null;
     ketchPkg = lib.mkDefault null;
-    workmuxPkg = lib.mkDefault null;
+    # Обычный switch тоже использует ревизию из flake.lock этого репозитория.
+    # getFlake нужен только здесь: при --flake пакет приходит через extraSpecialArgs.
+    workmuxPkg = lib.mkDefault (
+      (builtins.getFlake (toString ./.)).packages.${pkgs.stdenv.hostPlatform.system}.workmuxPkg
+    );
   };
 
   # На macOS обычный `home-manager switch` использует текущего пользователя.
