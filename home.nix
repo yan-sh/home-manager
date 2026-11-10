@@ -36,6 +36,7 @@
   home.packages = 
     [
       pkgs-unstable.tmux
+      pkgs-unstable.zellij
       pkgs-unstable.neovim
       pkgs-unstable.fzf
       pkgs.nil
