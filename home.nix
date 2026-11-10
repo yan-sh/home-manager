@@ -1,9 +1,8 @@
-{ config, lib, options, pkgs, pkgs-unstable, beads, ghosttyPkg, nixGLIntel, ketchPkg, workmuxPkg, ... }:
+{ config, lib, options, pkgs, pkgs-unstable, ghosttyPkg, nixGLIntel, ketchPkg, workmuxPkg, ... }:
 {
   # Обычный switch не передаёт extraSpecialArgs из flake.nix.
   _module.args = {
     pkgs-unstable = lib.mkDefault (import <nixpkgs-unstable> { inherit (pkgs.stdenv.hostPlatform) system; });
-    beads = lib.mkDefault null;
     # Нативный .app для macOS; Linux получает Ghostty и nixGL из flake.nix.
     ghosttyPkg = lib.mkDefault (
       if pkgs.stdenv.hostPlatform.isDarwin then pkgs-unstable.ghostty-bin else null
@@ -62,7 +61,6 @@
     ++ lib.optional (workmuxPkg != null) workmuxPkg
     ++ (if ghosttyPkg == null then [] else [ ghosttyPkg ])
     ++ (if nixGLIntel == null then [] else [ nixGLIntel ]);
-    # ++ (if beads == null then [] else [ beads ]);
 
   # Явный .desktop entry для Ghostty — GNOME на Fedora не всегда видит
   # .desktop из nix-профиля. Запускаем через nixGLIntel, который корректно
