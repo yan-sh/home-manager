@@ -115,7 +115,8 @@
         "ketch": "ketch",
         "nixgl": "nixgl",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "workmux": "workmux"
       }
     },
     "systems": {
@@ -130,6 +131,27 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "workmux": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794139680,
+        "narHash": "sha256-zQ3OO/8GwLmHxe33YSkTIfpnmw49iMLvMrDQC0KrxX8=",
+        "owner": "raine",
+        "repo": "workmux",
+        "rev": "b98f10cc20d16e8cebce24c4baf7727ee10d4c67",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raine",
+        "ref": "main",
+        "repo": "workmux",
         "type": "github"
       }
     }

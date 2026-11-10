@@ -1,4 +1,4 @@
-{ config, lib, options, pkgs, pkgs-unstable, beads, ghosttyPkg, nixGLIntel, ketchPkg, ... }:
+{ config, lib, options, pkgs, pkgs-unstable, beads, ghosttyPkg, nixGLIntel, ketchPkg, workmuxPkg, ... }:
 {
   # Обычный switch не передаёт extraSpecialArgs из flake.nix.
   _module.args = {
@@ -10,6 +10,7 @@
     );
     nixGLIntel = lib.mkDefault null;
     ketchPkg = lib.mkDefault null;
+    workmuxPkg = lib.mkDefault null;
   };
 
   # На macOS обычный `home-manager switch` использует текущего пользователя.
@@ -54,6 +55,7 @@
       pkgs-unstable.delta
     ]
     ++ lib.optional (ketchPkg != null) ketchPkg
+    ++ lib.optional (workmuxPkg != null) workmuxPkg
     ++ (if ghosttyPkg == null then [] else [ ghosttyPkg ])
     ++ (if nixGLIntel == null then [] else [ nixGLIntel ]);
     # ++ (if beads == null then [] else [ beads ]);

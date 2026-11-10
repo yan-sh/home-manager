@@ -15,13 +15,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Track Git main so `nix flake update` picks up the latest commit.
+    workmux = {
+      url = "github:raine/workmux/main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     ketch = {
       url = "github:1broseidon/ketch/v0.8.0";
       flake = false;
     };
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, nixgl, ketch, ... }:
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, nixgl, ketch, workmux, ... }:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -115,17 +121,18 @@
       ghosttyPkg = pkgs-unstable.ghostty;
       nixGLIntel = nixgl.packages.${system}.nixGLIntel;
       ketchPkg = mkKetch pkgs-unstable;
+      workmuxPkg = workmux.packages.${system}.default;
     in
     {
       packages.${system} = {
-        inherit beads ketchPkg;
+        inherit beads ketchPkg workmuxPkg;
         default = beads;
       };
 
       homeConfigurations.freak = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {
-          inherit pkgs-unstable beads ghosttyPkg nixGLIntel ketchPkg;
+          inherit pkgs-unstable beads ghosttyPkg nixGLIntel ketchPkg workmuxPkg;
         };
         modules = [ ./home.nix ];
       };
